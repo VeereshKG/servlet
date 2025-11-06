@@ -1,4 +1,4 @@
-package com.xworkz.forms;
+package com.xworkz.form;
 
 import javax.servlet.GenericServlet;
 import javax.servlet.ServletException;
@@ -6,6 +6,7 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.annotation.WebServlet;
 import java.io.IOException;
+import java.io.PrintWriter;
 
 @WebServlet(urlPatterns = "/buyer", loadOnStartup = 1)
 
@@ -40,6 +41,23 @@ public class EstateBuyerServlet extends GenericServlet {
         System.out.println("Bedrooms : " + bedrooms);
         System.out.println("Furnished : " + furnished);
         System.out.println("Preferred Area : " + preferredArea);
+
+        servletResponse.setContentType("text/html");
+        PrintWriter writer = servletResponse.getWriter();
+
+        writer.println("Buyer Details Submitted Successfully<br><br>");
+        writer.println("Entered Details Are:<br>");
+
+        writer.println("Buyer Name : " + buyerName + "<br>");
+        writer.println("Email : " + email + "<br>");
+        writer.println("Phone : " + phone + "<br>");
+        writer.println("City : " + city + "<br>");
+        writer.println("Budget : " + budget + "<br>");
+        writer.println("Property Type : " + propertyType + "<br>");
+        writer.println("Bedrooms : " + bedrooms + "<br>");
+        writer.println("Furnished : " + furnished + "<br>");
+        writer.println("Preferred Area : " + preferredArea + "<br>");
+
 
     }
 }

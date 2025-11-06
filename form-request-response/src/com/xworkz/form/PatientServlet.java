@@ -1,4 +1,4 @@
-package com.xworkz.forms;
+package com.xworkz.form;
 
 import javax.servlet.GenericServlet;
 import javax.servlet.ServletException;
@@ -6,6 +6,7 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.annotation.WebServlet;
 import java.io.IOException;
+import java.io.PrintWriter;
 
 @WebServlet(urlPatterns = "/patient", loadOnStartup = 1)
 
@@ -44,6 +45,25 @@ public class PatientServlet extends GenericServlet {
         System.out.println("Age : " + age);
         System.out.println("Marital Status : " + maritalStatus);
         System.out.println("Address : " + address);
+
+
+        servletResponse.setContentType("text/html");
+        PrintWriter writer = servletResponse.getWriter();
+
+        writer.println("Patient Registered Successfully<br><br>");
+        writer.println("Entered Details Are :<br><br>");
+
+        writer.println("Id : " + id + "<br>");
+        writer.println("Doctor Name : " + doctorName + "<br>");
+        writer.println("Disease : " + disease + "<br>");
+        writer.println("Patient Name : " + name + "<br>");
+        writer.println("Gender : " + gender + "<br>");
+        writer.println("Blood Group : " + bloodGroup + "<br>");
+        writer.println("Mobile No : " + mobileNo + "<br>");
+        writer.println("Date Of Birth : " + dob + "<br>");
+        writer.println("Age : " + age + "<br>");
+        writer.println("Marital Status : " + maritalStatus + "<br>");
+        writer.println("Address : " + address + "<br>");
 
 
     }

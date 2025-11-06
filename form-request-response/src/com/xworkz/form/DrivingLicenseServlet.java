@@ -1,4 +1,4 @@
-package com.xworkz.forms;
+package com.xworkz.form;
 
 import javax.servlet.GenericServlet;
 import javax.servlet.ServletException;
@@ -6,6 +6,8 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.annotation.WebServlet;
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.Objects;
 
 @WebServlet(urlPatterns = "/license", loadOnStartup = 1)
 
@@ -35,6 +37,7 @@ public class DrivingLicenseServlet extends GenericServlet {
         String applyDate = request.getParameter("applyDate");
         String idProof = request.getParameter("idProof");
         String bloodGroup = request.getParameter("bloodGroup");
+        String pwd = request.getParameter("pwd");
 
         System.out.println("First Name : " + firstName);
         System.out.println("Last Name : " + lastName);
@@ -52,6 +55,31 @@ public class DrivingLicenseServlet extends GenericServlet {
         System.out.println("Apply Date : " + applyDate);
         System.out.println("ID Proof : " + idProof);
         System.out.println("Blood Group : " + bloodGroup);
+        System.out.println("Password : " + Objects.nonNull(pwd));
+
+        servletResponse.setContentType("text/html");
+        PrintWriter writer = servletResponse.getWriter();
+
+        writer.println("Driving License Application Submitted Successfully<br><br>");
+        writer.println("Entered Details Like:<br>");
+        writer.println("First Name : " + firstName + "<br>");
+        writer.println("Last Name : " + lastName + "<br>");
+        writer.println("Date of Birth : " + dob + "<br>");
+        writer.println("Gender : " + gender + "<br>");
+        writer.println("Address : " + address + "<br>");
+        writer.println("Birth Place : " + birthPlace + "<br>");
+        writer.println("City : " + city + "<br>");
+        writer.println("State : " + state + "<br>");
+        writer.println("Pin Code : " + pinCode + "<br>");
+        writer.println("Phone : " + phone + "<br>");
+        writer.println("Email : " + email + "<br>");
+        writer.println("Vehicle Type : " + vehicleType + "<br>");
+        writer.println("License Type : " + licenseType + "<br>");
+        writer.println("Apply Date : " + applyDate + "<br>");
+        writer.println("ID Proof : " + idProof + "<br>");
+        writer.println("Blood Group : " + bloodGroup + "<br>");
+        writer.println("Password : " + (Objects.nonNull(pwd)) + "<br>");
+
 
     }
 }
