@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/request-servlet.iml" filepath="$PROJECT_DIR$/request-servlet.iml" />
+      <module fileurl="file://$PROJECT_DIR$/forms-post.iml" filepath="$PROJECT_DIR$/forms-post.iml" />
     </modules>
   </component>
 </project>
