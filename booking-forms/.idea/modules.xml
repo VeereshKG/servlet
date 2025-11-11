@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/form-request-response.iml" filepath="$PROJECT_DIR$/form-request-response.iml" />
+      <module fileurl="file://$PROJECT_DIR$/booking-forms.iml" filepath="$PROJECT_DIR$/booking-forms.iml" />
     </modules>
   </component>
 </project>
