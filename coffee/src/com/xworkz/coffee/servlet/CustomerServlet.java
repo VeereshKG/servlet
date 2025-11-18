@@ -1,4 +1,8 @@
-package com.xworkz.coffee;
+package com.xworkz.coffee.servlet;
+
+import com.xworkz.coffee.dto.CustomerDTO;
+import com.xworkz.coffee.service.CustomerService;
+import com.xworkz.coffee.service.impl.CustomerServiceImpl;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -21,7 +25,7 @@ public class CustomerServlet extends HttpServlet {
         String name = req.getParameter("name");
         String mobile = req.getParameter("mobile");
         String flavour = req.getParameter("flavour");
-        int quantity = Integer.parseInt(req.getParameter("quantity"));
+        String quantity = req.getParameter("quantity");
         String payment = req.getParameter("payment");
 
         System.out.println("Setting attributes in CustomerServlet to send to jsp");
@@ -30,6 +34,12 @@ public class CustomerServlet extends HttpServlet {
         req.setAttribute("flavour", flavour);
         req.setAttribute("quantity", quantity);
         req.setAttribute("payment", payment);
+
+        CustomerDTO customerDTO = new CustomerDTO(name,Long.parseLong(mobile),flavour,Integer.parseInt(quantity),payment);
+        System.out.println("CustomerDTO ---> "+customerDTO);
+
+        CustomerService customerService = new CustomerServiceImpl();
+        customerService.validateAndSave(customerDTO);
 
         System.out.println("Forwarding to jsp");
         req.getRequestDispatcher("CustomerResult.jsp").forward(req, resp);

@@ -1,4 +1,8 @@
-package com.xworkz.coffee;
+package com.xworkz.coffee.servlet;
+
+import com.xworkz.coffee.dto.CoffeeLandDTO;
+import com.xworkz.coffee.service.CoffeeLandService;
+import com.xworkz.coffee.service.impl.CoffeeLandServiceImpl;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -25,14 +29,21 @@ public class CoffeeLandServlet extends HttpServlet {
         String fertilizer = req.getParameter("fertilizer");
         String check = req.getParameter("check");
 
+
         System.out.println("Setting attributes in CoffeeLandServlet to send to jsp");
-        req.setAttribute("Size",size );
-        req.setAttribute("Plant",plant );
+        req.setAttribute("Size", size);
+        req.setAttribute("Plant", plant);
         req.setAttribute("Yeild", yeild);
-        req.setAttribute("expenditure",exp );
-        req.setAttribute("Profit",profit );
+        req.setAttribute("expenditure", exp);
+        req.setAttribute("Profit", profit);
         req.setAttribute("fertilizer", fertilizer);
         req.setAttribute("Check", check);
+
+        CoffeeLandDTO coffeeLandDTO = new CoffeeLandDTO(Integer.parseInt(size), plant, yeild, Double.parseDouble(exp), Double.parseDouble(profit), Integer.parseInt(fertilizer), check);
+        System.out.println("CoffeeLandDTO --- >"+coffeeLandDTO);
+
+        CoffeeLandService coffeeLandService = new CoffeeLandServiceImpl();
+        coffeeLandService.validateAndSave(coffeeLandDTO);
 
         System.out.println("Forwarding to jsp");
         req.getRequestDispatcher("CoffeeLandResult.jsp").forward(req, resp);

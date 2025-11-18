@@ -1,4 +1,8 @@
-package com.xworkz.coffee;
+package com.xworkz.coffee.servlet;
+
+import com.xworkz.coffee.dto.CafeteriaDTO;
+import com.xworkz.coffee.service.CafeteriaService;
+import com.xworkz.coffee.service.impl.CafeteriaServiceImpl;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -35,6 +39,12 @@ public class CafeteriaServlet extends HttpServlet {
         req.setAttribute("franchise", franchise);
         req.setAttribute("owner", owner);
         req.setAttribute("gst", gst);
+
+        CafeteriaDTO cafeteriaDTO = new CafeteriaDTO(name, location, type, Double.parseDouble(price), franchise, owner, gst);
+        System.out.println("cafeteriaDTO--->"+cafeteriaDTO);
+
+        CafeteriaService cafeteriaService = new CafeteriaServiceImpl();
+        cafeteriaService.validateAndSave(cafeteriaDTO);
 
         System.out.println("Forwarding to jsp");
         req.getRequestDispatcher("CafeteriaResult.jsp").forward(req, resp);
