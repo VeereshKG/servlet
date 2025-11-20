@@ -1,9 +1,13 @@
 package com.xworkz.surveyapp.service;
 
+import com.xworkz.surveyapp.dao.SurveyDAO;
+import com.xworkz.surveyapp.dao.SurveyDAOImpl;
 import com.xworkz.surveyapp.dto.SurveyDTO;
 import com.xworkz.surveyapp.exception.DataInValidException;
 
 public class SurveyServiceImpl implements SurveyService {
+
+    SurveyDAO<SurveyDTO> surveyDAO = new SurveyDAOImpl();
     @Override
     public void validateAndSave(SurveyDTO surveyDTO) throws DataInValidException {
         System.out.println("Validating And saving data");
@@ -118,9 +122,11 @@ public class SurveyServiceImpl implements SurveyService {
             isInvalid = true;
         }
 
-
         if (isInvalid) {
-            throw new DataInValidException("Entered Data is Invalid");
+             throw new DataInValidException("Entered Data is Invalid");
+        }else {
+          boolean save =  surveyDAO.save(surveyDTO);
+            System.out.println("Save data through SurveyDAO "+save);
         }
     }
 }

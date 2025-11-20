@@ -8,12 +8,12 @@
 
 <body class="p-3 mb-2 bg-primary-subtle text-primary-emphasis">
 
-<div class="container mt-4">
+<div class="container  p-3 mb-2 bg-primary-subtle text-primary-emphasis">
 
 
     <div class="card shadow-lg p-4">
         <h2 class="text-center text-primary mb-4">Survey Details</h2>
-        <h1 style="color:blue;">${success}</h1>
+        <h1 style="color:green;">${success}</h1>
         <h1 style="color:red;">${error}</h1>
 
 
@@ -28,12 +28,10 @@
         <p><strong>Mother Tongue:</strong> ${motherTongue}</p>
         <p><strong>Religion:</strong> ${religion}</p>
         <p><strong>Caste:</strong> ${caste}</p>
-
-        <hr>
-
-        <h4 class="text-success mb-3">Contact Details</h4>
         <p><strong>Mobile No:</strong> ${mobile}</p>
-        <p><strong>Friends Count:</strong> ${friends}</p>
+        <p><strong>Friends :</strong> ${friends}</p>
+        <p><strong>Shoe Size:</strong> ${shoeSize}</p>
+        <p><strong>No. of Shoes:</strong> ${shoes}</p>
 
         <hr>
 
@@ -71,8 +69,7 @@
         <p><strong>Laptop:</strong> ${laptop}</p>
         <p><strong>TV:</strong> ${tv}</p>
         <p><strong>Share Holding:</strong> ${shareHolding}</p>
-        <p><strong>Shoe Size:</strong> ${shoeSize}</p>
-        <p><strong>No. of Shoes:</strong> ${shoes}</p>
+
 
         <hr>
 
@@ -91,16 +88,12 @@
 
         <hr>
 
-        <h4 class="text-success mb-3">Property & Utilities</h4>
+        <h4 class="text-success mb-3">Others</h4>
         <p><strong>RTC:</strong> ${rtc}</p>
         <p><strong>Taxes:</strong> ${taxes}</p>
         <p><strong>Electricity Bill:</strong> ${electricityBill}</p>
         <p><strong>Water Bill:</strong> ${waterBill}</p>
         <p><strong>Building Owner:</strong> ${buildingOwner}</p>
-
-        <hr>
-
-        <h4 class="text-success mb-3">Agriculture</h4>
         <p><strong>Crop:</strong> ${crop}</p>
 
         <hr>
