@@ -1,4 +1,6 @@
-package com.xworkz.app;
+package com.xworkz.app.servlet;
+
+import com.xworkz.app.dto.MatrimonyDTO;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -11,6 +13,11 @@ import java.io.IOException;
 
 public class MatrimonyServlet extends HttpServlet {
 
+
+    public MatrimonyServlet() {
+        System.out.println("MatrimonyServlet is created");
+    }
+
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
@@ -22,6 +29,9 @@ public class MatrimonyServlet extends HttpServlet {
         String religion = req.getParameter("religion");
         String martialStatus = req.getParameter("martialStatus");
         String height = req.getParameter("height");
+
+        MatrimonyDTO matrimonyDTO = new MatrimonyDTO(email, forWhom, gender, dob, motherTongue, religion, martialStatus, height);
+        System.out.println("the details are  " + matrimonyDTO);
 
         req.setAttribute("email", email);
         req.setAttribute("forwhom", forWhom);
