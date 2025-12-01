@@ -1,20 +1,17 @@
 package com.xworkz;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.sql.Statement;
+import com.xworkz.constants.DBConstant;
+
+import java.sql.*;
 
 public class StreetMain {
     public static void main(String[] args) {
 
         System.out.println("main started");
-        String url = "jdbc:mysql://localhost:3306/matrimonydb";
-        String userName = "root";
-        String pwd = "Veeresh@2002";
 
-        try {
-            Connection connection = DriverManager.getConnection(url, userName, pwd);
+        try(Connection connection = DriverManager.getConnection(DBConstant.URL.getPropertis(),DBConstant.USERNAME.getPropertis(),DBConstant.PASSWORD.getPropertis());
+            Statement statement = connection.createStatement(); ) {
+
             System.out.println("Connection -->" + connection);
             System.out.println("Insertion started");
 
@@ -95,7 +92,7 @@ public class StreetMain {
                     "(74,'BHEL Road','Kailasapuram','Trichy','Tamil Nadu',620014,'BHEL Township',5.2,24.0,'Low','Clean','Good')," +
                     "(75,'Anna Nagar Main Road','Trichy','Trichy','Tamil Nadu',620026,'Anna Nagar Park',2.8,18.0,'Medium','Good','Good');";
 
-            Statement statement = connection.createStatement();
+
 //            int rowsAffected = statement.executeUpdate(insert);
 //            System.out.println("affectedRows--> " + rowsAffected);
 
@@ -132,6 +129,143 @@ public class StreetMain {
             System.out.println("rowsAffected -->"+ rowsDeleted1);
 
             System.out.println("DELETE ended");
+
+            System.out.println("SELECT started");
+
+            System.out.println("Select all rows");
+            String selectAll = "SELECT * FROM street_info";
+            ResultSet rsAll = statement.executeQuery(selectAll);
+            while (rsAll.next()) {
+                System.out.println(rsAll.getInt("id") + "\t" +
+                        rsAll.getString("street_name") + "\t" +
+                        rsAll.getString("area") + "\t" +
+                        rsAll.getString("city") + "\t" +
+                        rsAll.getString("state") + "\t" +
+                        rsAll.getInt("pincode") + "\t" +
+                        rsAll.getString("landmark") + "\t" +
+                        rsAll.getDouble("length_km") + "\t" +
+                        rsAll.getDouble("width_m") + "\t" +
+                        rsAll.getString("traffic_level") + "\t" +
+                        rsAll.getString("cleanliness_status") + "\t" +
+                        rsAll.getString("road_condition"));
+            }
+            System.out.println("-------------------------------------------------------");
+
+            System.out.println("Select one row");
+            String selectOneRow = "SELECT * FROM street_info WHERE id=2";
+            ResultSet rsOneRow = statement.executeQuery(selectOneRow);
+            while (rsOneRow.next()) {
+                System.out.println(rsOneRow.getInt("id") + "\t" + rsOneRow.getString("street_name"));
+            }
+            System.out.println("-------------------------------------------------------");
+
+            System.out.println("Select one row 1 column");
+            String selectOneColumn = "SELECT street_name FROM street_info WHERE id=3";
+            ResultSet rsOneColumn = statement.executeQuery(selectOneColumn);
+            while (rsOneColumn.next()) {
+                System.out.println(rsOneColumn.getString("street_name"));
+            }
+            System.out.println("-------------------------------------------------------");
+
+            System.out.println("Select two rows");
+            String selectTwoRows = "SELECT * FROM street_info LIMIT 2";
+            ResultSet rsTwoRows = statement.executeQuery(selectTwoRows);
+            while (rsTwoRows.next()) {
+                System.out.println(rsTwoRows.getInt("id") + "\t" + rsTwoRows.getString("street_name"));
+            }
+            System.out.println("-------------------------------------------------------");
+
+            System.out.println("Select three rows");
+            String selectThreeRows = "SELECT * FROM street_info LIMIT 3";
+            ResultSet rsThreeRows = statement.executeQuery(selectThreeRows);
+            while (rsThreeRows.next()) {
+                System.out.println(rsThreeRows.getInt("id") + "\t" + rsThreeRows.getString("street_name"));
+            }
+            System.out.println("-------------------------------------------------------");
+
+            System.out.println("Select one column all rows");
+            String selectOneColumnAll = "SELECT street_name FROM street_info";
+            ResultSet rsOneColumnAll = statement.executeQuery(selectOneColumnAll);
+            while (rsOneColumnAll.next()) {
+                System.out.println(rsOneColumnAll.getString("street_name"));
+            }
+            System.out.println("-------------------------------------------------------");
+
+            System.out.println("Select distinct cities");
+            String selectDistinct = "SELECT DISTINCT city FROM street_info";
+            ResultSet rsDistinct = statement.executeQuery(selectDistinct);
+            while (rsDistinct.next()) {
+                System.out.println(rsDistinct.getString("city"));
+            }
+            System.out.println("-------------------------------------------------------");
+
+            System.out.println("Select count(*)");
+            String selectCount = "SELECT COUNT(*) AS total FROM street_info";
+            ResultSet rsCount = statement.executeQuery(selectCount);
+            while (rsCount.next()) {
+                System.out.println("Total rows: " + rsCount.getInt("total"));
+            }
+            System.out.println("-------------------------------------------------------");
+
+            System.out.println("Select latest row");
+            String selectLatest = "SELECT * FROM street_info ORDER BY id DESC LIMIT 1";
+            ResultSet rsLatest = statement.executeQuery(selectLatest);
+            while (rsLatest.next()) {
+                System.out.println(rsLatest.getInt("id") + "\t" + rsLatest.getString("street_name"));
+            }
+            System.out.println("-------------------------------------------------------");
+
+            System.out.println("Select 2 max id rows");
+            String select2Max = "SELECT * FROM street_info ORDER BY id DESC LIMIT 2";
+            ResultSet rs2Max = statement.executeQuery(select2Max);
+            while (rs2Max.next()) {
+                System.out.println(rs2Max.getInt("id") + "\t" + rs2Max.getString("street_name"));
+            }
+            System.out.println("-------------------------------------------------------");
+
+            System.out.println("Select 5 min id rows");
+            String select5Min = "SELECT * FROM street_info ORDER BY id ASC LIMIT 5";
+            ResultSet rs5Min = statement.executeQuery(select5Min);
+            while (rs5Min.next()) {
+                System.out.println(rs5Min.getInt("id") + "\t" + rs5Min.getString("street_name"));
+            }
+            System.out.println("-------------------------------------------------------");
+
+            System.out.println("Select oldest row (by length_km)");
+            String selectOldest = "SELECT * FROM street_info ORDER BY length_km DESC LIMIT 1";
+            ResultSet rsOldest = statement.executeQuery(selectOldest);
+            while (rsOldest.next()) {
+                System.out.println(rsOldest.getString("street_name") + " --> Length: " + rsOldest.getDouble("length_km"));
+            }
+            System.out.println("-------------------------------------------------------");
+
+            System.out.println("Select all rows order by id desc");
+            String selectOrderDesc = "SELECT * FROM street_info ORDER BY id DESC";
+            ResultSet rsOrderDesc = statement.executeQuery(selectOrderDesc);
+            while (rsOrderDesc.next()) {
+                System.out.println(rsOrderDesc.getInt("id") + "\t" + rsOrderDesc.getString("street_name"));
+            }
+            System.out.println("-------------------------------------------------------");
+
+            System.out.println("Select with group by city");
+            String selectGroupBy = "SELECT city, COUNT(*) AS total FROM street_info GROUP BY city";
+            ResultSet rsGroupBy = statement.executeQuery(selectGroupBy);
+            while (rsGroupBy.next()) {
+                System.out.println(rsGroupBy.getString("city") + " --> " + rsGroupBy.getInt("total"));
+            }
+            System.out.println("-------------------------------------------------------");
+
+            System.out.println("Select with group by city having count > 2");
+            String selectGroupByHaving = "SELECT city, COUNT(*) AS total FROM street_info GROUP BY city HAVING total > 2";
+            ResultSet rsGroupByHaving = statement.executeQuery(selectGroupByHaving);
+            while (rsGroupByHaving.next()) {
+                System.out.println(rsGroupByHaving.getString("city") + " --> " + rsGroupByHaving.getInt("total"));
+            }
+            System.out.println("-------------------------------------------------------");
+
+            System.out.println("SELECT ended");
+
+
 
         } catch (SQLException e) {
             e.printStackTrace();

@@ -14,15 +14,17 @@ public class MatrimonyMain {
             Connection connection = DriverManager.getConnection(url, user, password);
             System.out.println("Connection -->" + connection);
 
-//            String sql = "INSERT INTO matrimony_info VALUES(4,'pramod@outlook.in','son','Male','2003-07-16','kannada','Hindu','single',5.4),(3,'chethan@gmail.com','daughter','Female','2003-08-17','Kannada','Hindu','single',5.0); ;";
-//            Statement statement = connection.createStatement();
+            String sql = "INSERT INTO matrimony_info VALUES(4,'pramod@outlook.in','son','Male','2003-07-16','kannada','Hindu','single',5.4),(3,'chethan@gmail.com','daughter','Female','2003-08-17','Kannada','Hindu','single',5.0); ;";
+            Statement statement = connection.createStatement();
 //            int rowsAffected = statement.executeUpdate(sql);
 //            System.out.println("rowsAffected -->" + rowsAffected);
 
-//            String select = "select * from matrimony_info ; ";
-            Statement statement = connection.createStatement();
-//          ResultSet set = statement.executeQuery(select);
-//            System.out.println("ResultSet --->"+set);
+            String select = "select * from matrimony_info ; ";
+          ResultSet set = statement.executeQuery(select);
+          while (set.next()){
+
+          }
+            System.out.println("ResultSet --->"+set);
 
           String update =  "UPDATE matrimony_info  SET height = 6.0 WHERE m_id = 2;";
          int rows = statement.executeUpdate(update);
@@ -31,6 +33,7 @@ public class MatrimonyMain {
             String delete =  "DELETE FROM matrimony_info WHERE m_id = 2;";
             int deleterows = statement.executeUpdate(delete);
             System.out.println("Rows affected-->"+ deleterows);
+
         } catch (SQLException exception) {
             exception.printStackTrace();
         }

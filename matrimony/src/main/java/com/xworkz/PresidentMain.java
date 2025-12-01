@@ -1,5 +1,7 @@
 package com.xworkz;
 
+import com.xworkz.constants.DBConstant;
+import java.sql.*;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -9,12 +11,8 @@ public class PresidentMain {
     public static void main(String[] args) {
         System.out.println("main started");
 
-        String url = "jdbc:mysql://localhost:3306/matrimonydb";
-        String userName = "root";
-        String pwd = "Veeresh@2002";
-
-        try {
-            Connection connection = DriverManager.getConnection(url, userName, pwd);
+        try(Connection connection = DriverManager.getConnection(DBConstant.URL.getPropertis(),DBConstant.USERNAME.getPropertis(),DBConstant.PASSWORD.getPropertis());
+            Statement statement = connection.createStatement(); ) {
             System.out.println("Connection -->" + connection);
 
             System.out.println("Insertion started");
@@ -96,7 +94,8 @@ public class PresidentMain {
                     "(74,'Lilian Scott','Canada',55,'Female',2019,2024,'Liberal Group','Masters Law','17 years govt','Child welfare','Maple Honor','Canadian','Vancouver')," +
                     "(75,'Jorge Castillo','Mexico',62,'Male',2007,2012,'People Congress','History','29 years govt','Agriculture reforms','Sun Crest','Mexican','Monterrey');";
 
-            Statement statement = connection.createStatement();
+//            Statement statement = connection.createStatement();
+
 //            int rowsAffected = statement.executeUpdate(insert);
 //            System.out.println("affectedRows--> " + rowsAffected);
 
@@ -132,6 +131,145 @@ public class PresidentMain {
             System.out.println("rowsAffected--> " + executeDelete1);
 
             System.out.println("DELETE ended");
+
+            System.out.println("select started");
+            System.out.println("Select all rows");
+            String selectAll = "SELECT * FROM president";
+            ResultSet resultSet = statement.executeQuery(selectAll);
+            while (resultSet.next()) {
+                System.out.println(resultSet.getInt("id") + "\t" +
+                        resultSet.getString("name") + "\t" +
+                        resultSet.getString("country") + "\t" +
+                        resultSet.getInt("age") + "\t" +
+                        resultSet.getString("gender") + "\t" +
+                        resultSet.getInt("term_start") + "\t" +
+                        resultSet.getInt("term_end") + "\t" +
+                        resultSet.getString("political_party") + "\t" +
+                        resultSet.getString("education") + "\t" +
+                        resultSet.getString("experience") + "\t" +
+                        resultSet.getString("achievements") + "\t" +
+                        resultSet.getString("awards") + "\t" +
+                        resultSet.getString("nationality") + "\t" +
+                        resultSet.getString("birthplace"));
+            }
+            System.out.println("-------------------------------------------------------");
+
+            System.out.println("Select one row");
+            String selectOneRow = "SELECT * FROM president WHERE id = 1";
+            ResultSet resultSet1 = statement.executeQuery(selectOneRow);
+            while (resultSet1.next()) {
+                System.out.println(resultSet1.getInt("id") + "\t" +
+                        resultSet1.getString("name") + "\t" +
+                        resultSet1.getString("country") + "\t" +
+                        resultSet1.getInt("age"));
+            }
+            System.out.println("-------------------------------------------------------");
+
+            System.out.println("Select one row 1 column");
+            String selectOneColumn = "SELECT name FROM president WHERE id = 2";
+            ResultSet resultSet2 = statement.executeQuery(selectOneColumn);
+            while (resultSet2.next()) {
+                System.out.println(resultSet2.getString("name"));
+            }
+            System.out.println("-------------------------------------------------------");
+
+            System.out.println("Select two rows");
+            String selectTwoRows = "SELECT * FROM president LIMIT 2";
+            ResultSet resultSet3 = statement.executeQuery(selectTwoRows);
+            while (resultSet3.next()) {
+                System.out.println(resultSet3.getInt("id") + "\t" + resultSet3.getString("name"));
+            }
+            System.out.println("-------------------------------------------------------");
+
+            System.out.println("Select three rows");
+            String selectThreeRows = "SELECT * FROM president LIMIT 3";
+            ResultSet resultSet4 = statement.executeQuery(selectThreeRows);
+            while (resultSet4.next()) {
+                System.out.println(resultSet4.getInt("id") + "\t" + resultSet4.getString("name"));
+            }
+            System.out.println("-------------------------------------------------------");
+
+            System.out.println("Select one column all rows");
+            String selectOneColumnAll = "SELECT name FROM president";
+            ResultSet resultSet5 = statement.executeQuery(selectOneColumnAll);
+            while (resultSet5.next()) {
+                System.out.println(resultSet5.getString("name"));
+            }
+            System.out.println("-------------------------------------------------------");
+
+            System.out.println("Select distinct countries");
+            String selectDistinct = "SELECT DISTINCT country FROM president";
+            ResultSet resultSet6 = statement.executeQuery(selectDistinct);
+            while (resultSet6.next()) {
+                System.out.println(resultSet6.getString("country"));
+            }
+            System.out.println("-------------------------------------------------------");
+
+            System.out.println("Select count(*)");
+            String selectCount = "SELECT COUNT(*) AS total FROM president";
+            ResultSet resultSet7 = statement.executeQuery(selectCount);
+            while (resultSet7.next()) {
+                System.out.println(resultSet7.getInt("total"));
+            }
+            System.out.println("-------------------------------------------------------");
+
+            System.out.println("Select latest row");
+            String selectLatest = "SELECT * FROM president ORDER BY id DESC LIMIT 1";
+            ResultSet resultSet8 = statement.executeQuery(selectLatest);
+            while (resultSet8.next()) {
+                System.out.println(resultSet8.getInt("id") + "\t" + resultSet8.getString("name"));
+            }
+            System.out.println("-------------------------------------------------------");
+
+            System.out.println("Select 2 max id rows");
+            String select2Max = "SELECT * FROM president ORDER BY id DESC LIMIT 2";
+            ResultSet resultSet9 = statement.executeQuery(select2Max);
+            while (resultSet9.next()) {
+                System.out.println(resultSet9.getInt("id") + "\t" + resultSet9.getString("name"));
+            }
+            System.out.println("-------------------------------------------------------");
+
+            System.out.println("Select 5 min id rows");
+            String select5Min = "SELECT * FROM president ORDER BY id ASC LIMIT 5";
+            ResultSet resultSet10 = statement.executeQuery(select5Min);
+            while (resultSet10.next()) {
+                System.out.println(resultSet10.getInt("id") + "\t" + resultSet10.getString("name"));
+            }
+            System.out.println("-------------------------------------------------------");
+
+            System.out.println("Select oldest row (max age)");
+            String selectOldest = "SELECT * FROM president ORDER BY age DESC LIMIT 1";
+            ResultSet resultSet11 = statement.executeQuery(selectOldest);
+            while (resultSet11.next()) {
+                System.out.println(resultSet11.getString("name") + " Age: " + resultSet11.getInt("age"));
+            }
+            System.out.println("-------------------------------------------------------");
+
+            System.out.println("Select all rows order by id desc");
+            String selectOrderDesc = "SELECT * FROM president ORDER BY id DESC";
+            ResultSet resultSet12 = statement.executeQuery(selectOrderDesc);
+            while (resultSet12.next()) {
+                System.out.println(resultSet12.getInt("id") + "\t" + resultSet12.getString("name"));
+            }
+            System.out.println("-------------------------------------------------------");
+
+            System.out.println("Select with group by (count by country)");
+            String selectGroupBy = "SELECT country, COUNT(*) AS total FROM president GROUP BY country";
+            ResultSet resultSet13 = statement.executeQuery(selectGroupBy);
+            while (resultSet13.next()) {
+                System.out.println(resultSet13.getString("country") + " --> " + resultSet13.getInt("total"));
+            }
+            System.out.println("-------------------------------------------------------");
+
+            System.out.println("Select with group by and having (count > 2)");
+            String selectGroupByHaving = "SELECT country, COUNT(*) AS total FROM president GROUP BY country HAVING total > 2";
+            ResultSet resultSet14 = statement.executeQuery(selectGroupByHaving);
+            while (resultSet14.next()) {
+                System.out.println(resultSet14.getString("country") + " --> " + resultSet14.getInt("total"));
+            }
+            System.out.println("-------------------------------------------------------");
+
+            System.out.println("select ended");
 
         } catch (SQLException e) {
             e.printStackTrace();

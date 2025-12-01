@@ -1,9 +1,8 @@
 package com.xworkz;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.sql.Statement;
+import com.xworkz.constants.DBConstant;
+
+import java.sql.*;
 
 public class SweetMain {
 
@@ -11,12 +10,10 @@ public class SweetMain {
 
         System.out.println("main started");
 
-        String url = "jdbc:mysql://localhost:3306/matrimonydb";
-        String userName = "root";
-        String pwd = "Veeresh@2002";
 
-        try {
-            Connection connection = DriverManager.getConnection(url, userName, pwd);
+        try (Connection connection = DriverManager.getConnection(DBConstant.URL.getPropertis(), DBConstant.USERNAME.getPropertis(), DBConstant.PASSWORD.getPropertis());
+             Statement statement = connection.createStatement();) {
+
             System.out.println("Connection -->" + connection);
 
             System.out.println("Insertion started");
@@ -97,42 +94,159 @@ public class SweetMain {
                     "(74,'MysorePak','Traditional',25.0,'Besan',50,'Haldirams')," +
                     "(75,'RagiLadoo','Healthy',16.0,'Ragi',36,'Haldirams');";
 
-            Statement statement = connection.createStatement();
+
 //            int rowsAffected = statement.executeUpdate(insert);
 //            System.out.println("affectedRows--> " + rowsAffected);
             System.out.println("Insertion ended");
 
             System.out.println("UPDATE started");
             String update = "UPDATE sweet_info SET sweet_name = 'MysorePak Special' WHERE shop_name  = 'AnandSweets'";
-           int executeUpdate = statement.executeUpdate(update);
-            System.out.println("UpdatedRows -- >"+ executeUpdate);
+            int executeUpdate = statement.executeUpdate(update);
+            System.out.println("UpdatedRows -- >" + executeUpdate);
 
             String update1 = "UPDATE sweet_info SET sweet_pricel = 10.0 WHERE sweet_id  = 50";
             int executeUpdate1 = statement.executeUpdate(update1);
-            System.out.println("UpdatedRows -- >"+ executeUpdate1);
+            System.out.println("UpdatedRows -- >" + executeUpdate1);
 
             String update2 = "UPDATE sweet_info SET shop_name = 'Haldirams' WHERE sweet_name  = 'BananaHalwa'";
             int executeUpdate2 = statement.executeUpdate(update2);
-            System.out.println("UpdatedRows -- >"+ executeUpdate2);
+            System.out.println("UpdatedRows -- >" + executeUpdate2);
 
             String update3 = "UPDATE sweet_info SET sweet_flavor = 'Pista' WHERE sweet_quantity  = 20";
             int executeUpdate3 = statement.executeUpdate(update3);
-            System.out.println("UpdatedRows -- >"+ executeUpdate3);
+            System.out.println("UpdatedRows -- >" + executeUpdate3);
             System.out.println("UPDATE ended");
 
             String delete = "DELETE from sweet_info WHERE sweet_id = 1";
-           int executeDelete =  statement.executeUpdate(delete);
-            System.out.println("rowsAffected--> "+executeDelete);
+            int executeDelete = statement.executeUpdate(delete);
+            System.out.println("rowsAffected--> " + executeDelete);
 
             String delete1 = "DELETE from sweet_info WHERE shop_name = 'BengalHouse'";
-            int executeDelete1 =  statement.executeUpdate(delete1);
-            System.out.println("rowsAffected--> "+ executeDelete1);
+            int executeDelete1 = statement.executeUpdate(delete1);
+            System.out.println("rowsAffected--> " + executeDelete1);
 
             String delete2 = "DELETE from sweet_info WHERE shop_name = 'AnandSweets'";
-            int executeDelete2 =  statement.executeUpdate(delete2);
-            System.out.println("rowsAffected--> "+ executeDelete2);
+            int executeDelete2 = statement.executeUpdate(delete2);
+            System.out.println("rowsAffected--> " + executeDelete2);
 
             System.out.println("DELETE ended");
+
+            System.out.println("SELECT started");
+
+            System.out.println("Select all rows");
+            ResultSet rsAll = statement.executeQuery("SELECT * FROM sweet_info");
+            while (rsAll.next()) {
+                System.out.println(rsAll.getInt("sweet_id") + "\t" +
+                        rsAll.getString("sweet_name") + "\t" +
+                        rsAll.getString("sweet_type") + "\t" +
+                        rsAll.getDouble("sweet_pricel") + "\t" +
+                        rsAll.getString("sweet_flavor") + "\t" +
+                        rsAll.getInt("sweet_quantity") + "\t" +
+                        rsAll.getString("shop_name"));
+            }
+            System.out.println("-------------------------------------------------------");
+
+            System.out.println("Select one row");
+            ResultSet rsOneRow = statement.executeQuery("SELECT * FROM sweet_info WHERE sweet_id = 2");
+            while (rsOneRow.next()) {
+                System.out.println(rsOneRow.getInt("sweet_id") + "\t" + rsOneRow.getString("sweet_name") +
+                        "\t" + rsOneRow.getString("sweet_type"));
+            }
+            System.out.println("-------------------------------------------------------");
+
+            System.out.println("Select one row 1 column");
+            ResultSet rsOneColumn = statement.executeQuery("SELECT sweet_name FROM sweet_info WHERE sweet_id = 3");
+            while (rsOneColumn.next()) {
+                System.out.println(rsOneColumn.getString("sweet_name"));
+            }
+            System.out.println("-------------------------------------------------------");
+
+            System.out.println("Select two rows");
+            ResultSet rsTwoRows = statement.executeQuery("SELECT * FROM sweet_info LIMIT 2");
+            while (rsTwoRows.next()) {
+                System.out.println(rsTwoRows.getInt("sweet_id") + "\t" + rsTwoRows.getString("sweet_name"));
+            }
+            System.out.println("-------------------------------------------------------");
+
+            System.out.println("Select three rows");
+            ResultSet rsThreeRows = statement.executeQuery("SELECT * FROM sweet_info LIMIT 3");
+            while (rsThreeRows.next()) {
+                System.out.println(rsThreeRows.getInt("sweet_id") + "\t" + rsThreeRows.getString("sweet_name"));
+            }
+            System.out.println("-------------------------------------------------------");
+
+            System.out.println("Select one column all rows");
+            ResultSet rsOneColumnAll = statement.executeQuery("SELECT sweet_name FROM sweet_info");
+            while (rsOneColumnAll.next()) {
+                System.out.println(rsOneColumnAll.getString("sweet_name"));
+            }
+            System.out.println("-------------------------------------------------------");
+
+            System.out.println("Select distinct");
+            ResultSet rsDistinct = statement.executeQuery("SELECT DISTINCT sweet_type FROM sweet_info");
+            while (rsDistinct.next()) {
+                System.out.println(rsDistinct.getString("sweet_type"));
+            }
+            System.out.println("-------------------------------------------------------");
+
+            System.out.println("Select count(*)");
+            ResultSet rsCount = statement.executeQuery("SELECT COUNT(*) FROM sweet_info");
+            if (rsCount.next()) {
+                System.out.println(rsCount.getInt(1));
+            }
+            System.out.println("-------------------------------------------------------");
+
+            System.out.println("Select latest row");
+            ResultSet rsLatest = statement.executeQuery("SELECT * FROM sweet_info ORDER BY sweet_id DESC LIMIT 1");
+            while (rsLatest.next()) {
+                System.out.println(rsLatest.getInt("sweet_id") + "\t" + rsLatest.getString("sweet_name"));
+            }
+            System.out.println("-------------------------------------------------------");
+
+            System.out.println("Select 2 max row");
+            ResultSet rsMax2 = statement.executeQuery("SELECT * FROM sweet_info ORDER BY sweet_pricel DESC LIMIT 2");
+            while (rsMax2.next()) {
+                System.out.println(rsMax2.getInt("sweet_id") + "\t" + rsMax2.getString("sweet_name") + "\t" + rsMax2.getDouble("sweet_pricel"));
+            }
+            System.out.println("-------------------------------------------------------");
+
+            System.out.println("Select 5 min row");
+            ResultSet rsMin5 = statement.executeQuery("SELECT * FROM sweet_info ORDER BY sweet_pricel ASC LIMIT 5");
+            while (rsMin5.next()) {
+                System.out.println(rsMin5.getInt("sweet_id") + "\t" + rsMin5.getString("sweet_name") + "\t" + rsMin5.getDouble("sweet_pricel"));
+            }
+            System.out.println("-------------------------------------------------------");
+
+            System.out.println("Select oldest row");
+            ResultSet rsOldest = statement.executeQuery("SELECT * FROM sweet_info ORDER BY sweet_id ASC LIMIT 1");
+            while (rsOldest.next()) {
+                System.out.println(rsOldest.getInt("sweet_id") + "\t" + rsOldest.getString("sweet_name"));
+            }
+            System.out.println("-------------------------------------------------------");
+
+            System.out.println("Select all rows order by id desc");
+            ResultSet rsOrderDesc = statement.executeQuery("SELECT * FROM sweet_info ORDER BY sweet_id DESC");
+            while (rsOrderDesc.next()) {
+                System.out.println(rsOrderDesc.getInt("sweet_id") + "\t" + rsOrderDesc.getString("sweet_name"));
+            }
+            System.out.println("-------------------------------------------------------");
+
+            System.out.println("Select with group by");
+            ResultSet rsGroupBy = statement.executeQuery("SELECT sweet_type, COUNT(*) FROM sweet_info GROUP BY sweet_type");
+            while (rsGroupBy.next()) {
+                System.out.println(rsGroupBy.getString(1) + "\t" + rsGroupBy.getInt(2));
+            }
+            System.out.println("-------------------------------------------------------");
+
+            System.out.println("Select with group by and having");
+            ResultSet rsGroupHaving = statement.executeQuery("SELECT sweet_type, COUNT(*) FROM sweet_info GROUP BY sweet_type HAVING COUNT(*) > 2");
+            while (rsGroupHaving.next()) {
+                System.out.println(rsGroupHaving.getString(1) + "\t" + rsGroupHaving.getInt(2));
+            }
+            System.out.println("-------------------------------------------------------");
+
+            System.out.println("SELECT ended");
+
 
         } catch (SQLException e) {
             e.printStackTrace();

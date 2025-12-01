@@ -1,21 +1,20 @@
 package com.xworkz;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.sql.Statement;
+import com.xworkz.constants.DBConstant;
+
+import java.sql.*;
 
 public class HospitalMain {
     public static void main(String[] args) {
 
         System.out.println("main started");
+//
+//        String url = "jdbc:mysql://localhost:3306/matrimonydb";
+//        String userName = "root";
+//        String pwd = "Veeresh@2002";
 
-        String url = "jdbc:mysql://localhost:3306/matrimonydb";
-        String userName = "root";
-        String pwd = "Veeresh@2002";
-
-        try {
-            Connection connection = DriverManager.getConnection(url, userName, pwd);
+        try(Connection connection = DriverManager.getConnection(DBConstant.URL.getPropertis(),DBConstant.USERNAME.getPropertis(),DBConstant.PASSWORD.getPropertis());
+            Statement statement = connection.createStatement(); ) {
             System.out.println("Connection --> " + connection);
 
             System.out.println("Insertion started");
@@ -72,7 +71,7 @@ public class HospitalMain {
                     "(49,'HealingHands Clinic','General','Davangere','9222001122',2018,75,'General','Dr. Krishna',4.0)," +
                     "(50,'Sparsha Hospital','Children','Bangalore','9444001122',2015,90,'Pediatrics','Dr. Megha',4.2);";
 
-            Statement statement = connection.createStatement();
+//            Statement statement = connection.createStatement();
 //            int rowsAffected = statement.executeUpdate(insert);
 //            System.out.println("rowsAffected--> "+rowsAffected);
             System.out.println("Insertion ended");
@@ -108,9 +107,217 @@ public class HospitalMain {
             System.out.println("rowsAffected --> " + d2);
             System.out.println("DELETE ended");
 
+            System.out.println("fetching started");
+            System.out.println("fetch all the row");
+            String fetch = "SELECT * FROM hospital";
+            ResultSet resultSet = statement.executeQuery(fetch);
+            while (resultSet.next()) {
+                System.out.println(
+                        resultSet.getInt(1) + "  " +
+                                resultSet.getString(2) + "  " +
+                                resultSet.getString(3) + "  " +
+                                resultSet.getString(4) + "  " +
+                                resultSet.getString(5) + "  " +
+                                resultSet.getInt(6) + "  " +
+                                resultSet.getString(7) + "  " +
+                                resultSet.getString(8) + "  " +
+                                resultSet.getString(9) + "  " +
+                                resultSet.getDouble(10)
+                );
+            }
+
+            System.out.println("-----------------------------------------------");
+            System.out.println("fetch one row");
+            String fetch1 = "SELECT * FROM hospital WHERE id=1";
+            ResultSet resultSet1 = statement.executeQuery(fetch1);
+            while (resultSet1.next()) {
+                System.out.println(
+                        resultSet1.getInt(1) + "  " +
+                                resultSet1.getString(2) + "  " +
+                                resultSet1.getString(3) + "  " +
+                                resultSet1.getString(4) + "  " +
+                                resultSet1.getString(5) + "  " +
+                                resultSet1.getInt(6) + "  " +
+                                resultSet1.getString(7) + "  " +
+                                resultSet1.getString(8) + "  " +
+                                resultSet1.getString(9) + "  " +
+                                resultSet1.getDouble(10)
+                );
+            }
+
+            System.out.println("------------------------------------------");
+            System.out.println("fetch one row and one column");
+            String fetch2 = "SELECT hospital_name FROM hospital WHERE id=1";
+            ResultSet resultSet2 = statement.executeQuery(fetch2);
+            while (resultSet2.next()) {
+                System.out.println(resultSet2.getString("hospital_name"));
+            }
+
+            System.out.println("-----------------------------------------------");
+            System.out.println("fetch two rows");
+            String fetch3 = "SELECT * FROM hospital WHERE hospital_name='LifeLine Hospital' OR id=1";
+            ResultSet resultSet3 = statement.executeQuery(fetch3);
+            while (resultSet3.next()) {
+                System.out.println(
+                        resultSet3.getInt(1) + "  " +
+                                resultSet3.getString(2) + "  " +
+                                resultSet3.getString(3) + "  " +
+                                resultSet3.getString(4) + "  " +
+                                resultSet3.getString(5) + "  " +
+                                resultSet3.getInt(6) + "  " +
+                                resultSet3.getString(7) + "  " +
+                                resultSet3.getString(8) + "  " +
+                                resultSet3.getString(9) + "  " +
+                                resultSet3.getDouble(10)
+                );
+            }
+
+            System.out.println("---------------------------------------------------");
+            System.out.println("fetch two rows");
+            String fetch4 = "SELECT * FROM hospital WHERE hospital_name='LifeLine Hospital' OR id=1 OR id=8";
+            ResultSet resultSet4 = statement.executeQuery(fetch4);
+            while (resultSet4.next()) {
+                System.out.println(
+                        resultSet4.getInt(1) + "  " +
+                                resultSet4.getString(2) + "  " +
+                                resultSet4.getString(3) + "  " +
+                                resultSet4.getString(4) + "  " +
+                                resultSet4.getString(5) + "  " +
+                                resultSet4.getInt(6) + "  " +
+                                resultSet4.getString(7) + "  " +
+                                resultSet4.getString(8) + "  " +
+                                resultSet4.getString(9) + "  " +
+                                resultSet4.getDouble(10)
+                );
+            }
+
+            System.out.println("----------------------------------------------------");
+            System.out.println("one column all row");
+            String fetch5 = "SELECT hospital_name FROM hospital";
+            ResultSet resultSet5 = statement.executeQuery(fetch5);
+            while (resultSet5.next()) {
+                System.out.println(resultSet5.getString("hospital_name"));
+            }
+
+            System.out.println("-----------------------------------------------------");
+            System.out.println("fetch distinct");
+            String fetch6 = "SELECT DISTINCT hospital_name, id FROM hospital";
+            ResultSet resultSet6 = statement.executeQuery(fetch6);
+            while (resultSet6.next()) {
+                System.out.println(resultSet6.getInt("id") + "   " + resultSet6.getString("hospital_name"));
+            }
+
+            System.out.println("---------------------------------------------------");
+            System.out.println("count");
+            String fetch7 = "SELECT COUNT(*) FROM hospital";
+            ResultSet resultSet7 = statement.executeQuery(fetch7);
+            while (resultSet7.next()) {
+                System.out.println(resultSet7.getInt(1));
+            }
+
+            System.out.println("---------------------------------------------------");
+            System.out.println("latest row");
+            String fetch8 = "SELECT * FROM hospital ORDER BY established_year DESC LIMIT 1";
+            ResultSet resultSet8 = statement.executeQuery(fetch8);
+            while (resultSet8.next()) {
+                System.out.println(
+                        resultSet8.getInt(1) + "  " +
+                                resultSet8.getString(2) + "  " +
+                                resultSet8.getString(3) + "  " +
+                                resultSet8.getString(4) + "  " +
+                                resultSet8.getString(5) + "  " +
+                                resultSet8.getInt(6) + "  " +
+                                resultSet8.getString(7) + "  " +
+                                resultSet8.getString(8) + "  " +
+                                resultSet8.getString(9) + "  " +
+                                resultSet8.getDouble(10)
+                );
+            }
+
+            System.out.println("---------------------------------------------------");
+            System.out.println("Order by id row");
+            String fetch9 = "SELECT * FROM hospital ORDER BY id DESC";
+            ResultSet resultSet9 = statement.executeQuery(fetch9);
+            while (resultSet9.next()) {
+                System.out.println(
+                        resultSet9.getInt(1) + "  " +
+                                resultSet9.getString(2) + "  " +
+                                resultSet9.getString(3) + "  " +
+                                resultSet9.getString(4) + "  " +
+                                resultSet9.getString(5) + "  " +
+                                resultSet9.getInt(6) + "  " +
+                                resultSet9.getString(7) + "  " +
+                                resultSet9.getString(8) + "  " +
+                                resultSet9.getString(9) + "  " +
+                                resultSet9.getDouble(10)
+                );
+            }
+
+            System.out.println("---------------------------------------------------");
+            System.out.println("oldest row");
+            String fetch10 = "SELECT * FROM hospital ORDER BY established_year ASC LIMIT 1";
+            ResultSet resultSet10 = statement.executeQuery(fetch10);
+            while (resultSet10.next()) {
+                System.out.println(
+                        resultSet10.getInt(1) + "  " +
+                                resultSet10.getString(2) + "  " +
+                                resultSet10.getString(3) + "  " +
+                                resultSet10.getString(4) + "  " +
+                                resultSet10.getString(5) + "  " +
+                                resultSet10.getInt(6) + "  " +
+                                resultSet10.getString(7) + "  " +
+                                resultSet10.getString(8) + "  " +
+                                resultSet10.getString(9) + "  " +
+                                resultSet10.getDouble(10)
+                );
+            }
+
+            System.out.println("---------------------------------------------------");
+            System.out.println("group by row");
+            String fetch11 = "SELECT location FROM hospital GROUP BY location";
+            ResultSet resultSet11 = statement.executeQuery(fetch11);
+            while (resultSet11.next()) {
+                System.out.println(resultSet11.getString(1));
+            }
+
+            System.out.println("---------------------------------------------------");
+            System.out.println("max row");
+            String fetch12 = "SELECT MAX(location) FROM hospital";
+            ResultSet resultSet12 = statement.executeQuery(fetch12);
+            while (resultSet12.next()) {
+                System.out.println(resultSet12.getString(1));
+            }
+
+            System.out.println("---------------------------------------------------");
+            System.out.println("min row");
+            String fetch13 = "SELECT MIN(location) FROM hospital";
+            ResultSet resultSet13 = statement.executeQuery(fetch13);
+            while (resultSet13.next()) {
+                System.out.println(resultSet13.getString(1));
+            }
+
+            System.out.println("-------------------------------------------------------");
+            System.out.println("Group by location");
+
+            String fetch14 = "SELECT location, COUNT(*) AS total FROM hospital GROUP BY location";
+
+            ResultSet resultSet14 = statement.executeQuery(fetch14);
+
+            while (resultSet14.next()) {
+                String location = resultSet14.getString("location");
+                int total = resultSet14.getInt("total");
+                System.out.println(location + " = " + total);
+            }
+
+            System.out.println("fetching ended");
+
+
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
+
 
         System.out.println("main ended");
     }

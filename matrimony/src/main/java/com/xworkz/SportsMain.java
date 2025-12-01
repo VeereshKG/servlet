@@ -1,5 +1,7 @@
 package com.xworkz;
 
+import com.xworkz.constants.DBConstant;
+import java.sql.*;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -11,12 +13,13 @@ public class SportsMain {
 
         System.out.println("main started");
 
-        String url = "jdbc:mysql://localhost:3306/matrimonydb";
-        String user = "root";
-        String pwd = "Veeresh@2002";
+//        String url = "jdbc:mysql://localhost:3306/matrimonydb";
+//        String user = "root";
+//        String pwd = "Veeresh@2002";
 
-        try {
-            Connection connection = DriverManager.getConnection(url, user, pwd);
+        try(Connection connection = DriverManager.getConnection(DBConstant.URL.getPropertis(),DBConstant.USERNAME.getPropertis(),DBConstant.PASSWORD.getPropertis());
+            Statement statement = connection.createStatement(); ) {
+
             System.out.println("Connection --> " + connection);
 
             System.out.println("Insertion started");
@@ -72,7 +75,8 @@ public class SportsMain {
                     "(49,'RelayRace','Outdoor',4,'Jamaica','All','Yes','Blake')," +
                     "(50,'LongJump','Outdoor',1,'USA','Adult','Yes','Mike');";
 
-            Statement statement = connection.createStatement();
+//            Statement statement = connection.createStatement();
+
 //           int rowsAffected =  statement.executeUpdate(insert);
 //            System.out.println("rowsAffected--> "+rowsAffected);
             System.out.println("Insertion ended");
@@ -108,6 +112,137 @@ public class SportsMain {
             System.out.println("rowsAffected --> " + d3);
 
        System.out.println("DELETE ended");
+            System.out.println("SELECT started");
+
+            System.out.println("Select all rows");
+            String selectAll = "SELECT * FROM sports";
+            ResultSet rsAll = statement.executeQuery(selectAll);
+            while (rsAll.next()) {
+                System.out.println(rsAll.getInt("id") + "\t" +
+                        rsAll.getString("sports_name") + "\t" +
+                        rsAll.getString("category") + "\t" +
+                        rsAll.getInt("no_of_players") + "\t" +
+                        rsAll.getString("origin_country") + "\t" +
+                        rsAll.getString("age_group") + "\t" +
+                        rsAll.getString("isolympic_sport") + "\t" +
+                        rsAll.getString("coach_name"));
+            }
+            System.out.println("-------------------------------------------------------");
+
+            System.out.println("Select one row");
+            String selectOneRow = "SELECT * FROM sports WHERE id = 1";
+            ResultSet rsOneRow = statement.executeQuery(selectOneRow);
+            while (rsOneRow.next()) {
+                System.out.println(rsOneRow.getInt("id") + "\t" + rsOneRow.getString("sports_name"));
+            }
+            System.out.println("-------------------------------------------------------");
+
+            System.out.println("Select one row 1 column");
+            String selectOneColumn = "SELECT sports_name FROM sports WHERE id = 2";
+            ResultSet rsOneColumn = statement.executeQuery(selectOneColumn);
+            while (rsOneColumn.next()) {
+                System.out.println(rsOneColumn.getString("sports_name"));
+            }
+            System.out.println("-------------------------------------------------------");
+
+            System.out.println("Select two rows");
+            String selectTwoRows = "SELECT * FROM sports LIMIT 2";
+            ResultSet rsTwoRows = statement.executeQuery(selectTwoRows);
+            while (rsTwoRows.next()) {
+                System.out.println(rsTwoRows.getInt("id") + "\t" + rsTwoRows.getString("sports_name"));
+            }
+            System.out.println("-------------------------------------------------------");
+
+            System.out.println("Select three rows");
+            String selectThreeRows = "SELECT * FROM sports LIMIT 3";
+            ResultSet rsThreeRows = statement.executeQuery(selectThreeRows);
+            while (rsThreeRows.next()) {
+                System.out.println(rsThreeRows.getInt("id") + "\t" + rsThreeRows.getString("sports_name"));
+            }
+            System.out.println("-------------------------------------------------------");
+
+            System.out.println("Select one column all rows");
+            String selectOneColumnAll = "SELECT sports_name FROM sports";
+            ResultSet rsOneColumnAll = statement.executeQuery(selectOneColumnAll);
+            while (rsOneColumnAll.next()) {
+                System.out.println(rsOneColumnAll.getString("sports_name"));
+            }
+            System.out.println("-------------------------------------------------------");
+
+            System.out.println("Select distinct categories");
+            String selectDistinct = "SELECT DISTINCT category FROM sports";
+            ResultSet rsDistinct = statement.executeQuery(selectDistinct);
+            while (rsDistinct.next()) {
+                System.out.println(rsDistinct.getString("category"));
+            }
+            System.out.println("-------------------------------------------------------");
+
+            System.out.println("Select count(*)");
+            String selectCount = "SELECT COUNT(*) AS total FROM sports";
+            ResultSet rsCount = statement.executeQuery(selectCount);
+            while (rsCount.next()) {
+                System.out.println("Total rows: " + rsCount.getInt("total"));
+            }
+            System.out.println("-------------------------------------------------------");
+
+            System.out.println("Select latest row");
+            String selectLatest = "SELECT * FROM sports ORDER BY id DESC LIMIT 1";
+            ResultSet rsLatest = statement.executeQuery(selectLatest);
+            while (rsLatest.next()) {
+                System.out.println(rsLatest.getInt("id") + "\t" + rsLatest.getString("sports_name"));
+            }
+            System.out.println("-------------------------------------------------------");
+
+            System.out.println("Select 2 max id rows");
+            String select2Max = "SELECT * FROM sports ORDER BY id DESC LIMIT 2";
+            ResultSet rs2Max = statement.executeQuery(select2Max);
+            while (rs2Max.next()) {
+                System.out.println(rs2Max.getInt("id") + "\t" + rs2Max.getString("sports_name"));
+            }
+            System.out.println("-------------------------------------------------------");
+
+            System.out.println("Select 5 min id rows");
+            String select5Min = "SELECT * FROM sports ORDER BY id ASC LIMIT 5";
+            ResultSet rs5Min = statement.executeQuery(select5Min);
+            while (rs5Min.next()) {
+                System.out.println(rs5Min.getInt("id") + "\t" + rs5Min.getString("sports_name"));
+            }
+            System.out.println("-------------------------------------------------------");
+
+            System.out.println("Select oldest row (by no_of_players)");
+            String selectOldest = "SELECT * FROM sports ORDER BY no_of_players DESC LIMIT 1";
+            ResultSet rsOldest = statement.executeQuery(selectOldest);
+            while (rsOldest.next()) {
+                System.out.println(rsOldest.getString("sports_name") + " --> Players: " + rsOldest.getInt("no_of_players"));
+            }
+            System.out.println("-------------------------------------------------------");
+
+            System.out.println("Select all rows order by id desc");
+            String selectOrderDesc = "SELECT * FROM sports ORDER BY id DESC";
+            ResultSet rsOrderDesc = statement.executeQuery(selectOrderDesc);
+            while (rsOrderDesc.next()) {
+                System.out.println(rsOrderDesc.getInt("id") + "\t" + rsOrderDesc.getString("sports_name"));
+            }
+            System.out.println("-------------------------------------------------------");
+
+            System.out.println("Select with group by category");
+            String selectGroupBy = "SELECT category, COUNT(*) AS total FROM sports GROUP BY category";
+            ResultSet rsGroupBy = statement.executeQuery(selectGroupBy);
+            while (rsGroupBy.next()) {
+                System.out.println(rsGroupBy.getString("category") + " --> " + rsGroupBy.getInt("total"));
+            }
+            System.out.println("-------------------------------------------------------");
+
+            System.out.println("Select with group by category having count > 2");
+            String selectGroupByHaving = "SELECT category, COUNT(*) AS total FROM sports GROUP BY category HAVING total > 2";
+            ResultSet rsGroupByHaving = statement.executeQuery(selectGroupByHaving);
+            while (rsGroupByHaving.next()) {
+                System.out.println(rsGroupByHaving.getString("category") + " --> " + rsGroupByHaving.getInt("total"));
+            }
+            System.out.println("-------------------------------------------------------");
+
+            System.out.println("SELECT ended");
+
 
         } catch (SQLException e) {
             e.printStackTrace();
