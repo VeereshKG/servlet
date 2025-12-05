@@ -20,31 +20,38 @@
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
     <div class="container">
-        <a class="navbar-brand" href="index.jsp">Insurance Portal</a>
+
+        <a class="navbar-brand d-flex align-items-center" href="index.jsp">
+            <img src="https://www.policybazaar.com/pblife/assets/images/pb_life_1650972095.jpg"
+                 alt="Logo"
+                 style="height: 40px; width: auto; margin-right: 10px; border-radius: 5px;">
+            Insurance Portal
+        </a>
+
     </div>
 </nav>
 <div class="container mt-5">
-    <div class="card shadow-lg p-4 border-0 rounded-4">
+    <div class="card shadow-lg p-2 border-0 rounded-2">
         <h2 class="text-center mb-4 text-primary">Vehicle Insurance Enrollment</h2>
 
         <form id="insuranceForm" action="insurance" method="post" onsubmit="return validateForm()">
 
             <div class="mb-3">
-                <label class="form-label fw-bold">Owner Name</label>
+                <label class="form-label fw-bold">Owner Name <span style="color:red">*</span></label>
                 <input type="text" id="ownerName" name="ownerName" class="form-control"
                        placeholder="Enter owner name">
                 <small id="ownerErr"></small>
             </div>
 
             <div class="mb-3">
-                <label class="form-label fw-bold">Vehicle Number</label>
+                <label class="form-label fw-bold">Vehicle Number <span style="color:red">*</span></label>
                 <input type="text" id="vehicleNumber" name="vehicleNumber" class="form-control"
                        placeholder="KA-01-AB-1234">
                 <small id="vehicleErr"></small>
             </div>
 
             <div class="mb-3">
-                <label class="form-label fw-bold">Vehicle Type</label>
+                <label class="form-label fw-bold">Vehicle Type <span style="color:red">*</span></label>
                 <select id="vehicleType" name="vehicleType" class="form-select">
                     <option value="">Select</option>
                     <option value="Car">Car</option>
@@ -56,7 +63,7 @@
             </div>
 
             <div class="mb-3">
-                <label class="form-label fw-bold">Insurance Type</label>
+                <label class="form-label fw-bold">Insurance Type <span style="color:red">*</span></label>
                 <select id="insuranceType" name="insuranceType" class="form-select">
                     <option value="">Select</option>
                     <option value="Third Party">Third Party</option>
@@ -67,7 +74,7 @@
             </div>
 
             <div class="mb-3">
-                <label class="form-label fw-bold">Premium Amount</label>
+                <label class="form-label fw-bold">Premium Amount <span style="color:red">*</span></label>
                 <input type="number" id="premium" name="amount" class="form-control"
                        placeholder="Enter amount">
                 <small id="premiumErr"></small>

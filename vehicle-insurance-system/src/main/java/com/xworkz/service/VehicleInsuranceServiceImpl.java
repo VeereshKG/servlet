@@ -4,12 +4,13 @@ import com.xworkz.dao.VehicleInsuranceDAO;
 import com.xworkz.dao.VehicleInsuranceDAOImpl;
 import com.xworkz.dto.VehicleInsuranceDTO;
 import com.xworkz.exception.DataInvalidException;
+import com.xworkz.exception.DataNotSavedException;
 
 public class VehicleInsuranceServiceImpl implements VehicleInsuranceService{
 
 VehicleInsuranceDAO vehicleInsuranceDAO = new VehicleInsuranceDAOImpl();
     @Override
-    public void validate(VehicleInsuranceDTO vehicleInsuranceDTO) throws DataInvalidException {
+    public void validate(VehicleInsuranceDTO vehicleInsuranceDTO) throws DataInvalidException , DataNotSavedException {
 
 
         boolean isInvalid = false;
@@ -30,8 +31,12 @@ VehicleInsuranceDAO vehicleInsuranceDAO = new VehicleInsuranceDAOImpl();
         if (isInvalid) {
             throw new DataInvalidException("Entered Data is Invalid");
         }else {
-            boolean save =  vehicleInsuranceDAO.save(vehicleInsuranceDTO);
-            System.out.println("Save data through SurveyDAO "+save);
+            if (!vehicleInsuranceDAO.checkVehicleNumber(vehicleInsuranceDTO)){
+                vehicleInsuranceDAO.save(vehicleInsuranceDTO);
+            }else {
+                System.out.println("Vehicle number is not available");
+                throw new DataNotSavedException("data not saved exception");
+            }
         }
     }
 

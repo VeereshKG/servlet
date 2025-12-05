@@ -2,6 +2,7 @@ package com.xworkz.servlet;
 
 import com.xworkz.dto.VehicleInsuranceDTO;
 import com.xworkz.exception.DataInvalidException;
+import com.xworkz.exception.DataNotSavedException;
 import com.xworkz.service.VehicleInsuranceService;
 import com.xworkz.service.VehicleInsuranceServiceImpl;
 
@@ -50,14 +51,21 @@ public class VehicleInsuranceServlet extends HttpServlet {
             req.setAttribute("vehicleType", vehicleType);
             req.setAttribute("insuranceType", insuranceType);
             req.setAttribute("amount", amount);
-
             req.setAttribute("success", "Data Saved Successfully");
+
+            System.out.println("Forwarding to Result.jsp");
+            req.getRequestDispatcher("Result.jsp").forward(req, resp);
+
         } catch (DataInvalidException e) {
             req.setAttribute("error", "Data not saved");
 
+            req.getRequestDispatcher("Result.jsp").forward(req, resp);
+
+        } catch (DataNotSavedException e) {
+
+            req.setAttribute("vehicleerror", "vehicle number is already exist");
+            req.getRequestDispatcher("Result.jsp").forward(req, resp);
         }
-        System.out.println("Forwarding to Result.jsp");
-        req.getRequestDispatcher("Result.jsp").forward(req, resp);
 
 
     }

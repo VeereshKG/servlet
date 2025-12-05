@@ -4,5 +4,7 @@ import com.xworkz.dto.VehicleInsuranceDTO;
 
 public interface VehicleInsuranceDAO {
 
-    boolean save(VehicleInsuranceDTO vehicleInsuranceDTO);
+    void save(VehicleInsuranceDTO vehicleInsuranceDTO);
+
+    boolean checkVehicleNumber(VehicleInsuranceDTO vehicleInsuranceDTO);
 }
