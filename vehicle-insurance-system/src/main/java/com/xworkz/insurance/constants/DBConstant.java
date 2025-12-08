@@ -1,4 +1,4 @@
-package com.xworkz.constants;
+package com.xworkz.insurance.constants;
 
 public enum DBConstant {
 

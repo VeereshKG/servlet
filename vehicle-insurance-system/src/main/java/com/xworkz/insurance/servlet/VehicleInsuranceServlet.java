@@ -1,10 +1,11 @@
-package com.xworkz.servlet;
+package com.xworkz.insurance.servlet;
 
-import com.xworkz.dto.VehicleInsuranceDTO;
-import com.xworkz.exception.DataInvalidException;
-import com.xworkz.exception.DataNotSavedException;
-import com.xworkz.service.VehicleInsuranceService;
-import com.xworkz.service.VehicleInsuranceServiceImpl;
+import com.xworkz.insurance.dto.SearchDTO;
+import com.xworkz.insurance.dto.VehicleInsuranceDTO;
+import com.xworkz.insurance.exception.DataInvalidException;
+import com.xworkz.insurance.exception.DataNotSavedException;
+import com.xworkz.insurance.service.VehicleInsuranceService;
+import com.xworkz.insurance.service.VehicleInsuranceServiceImpl;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -12,6 +13,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Optional;
 
 @WebServlet(urlPatterns = "/insurance", loadOnStartup = 1)
 public class VehicleInsuranceServlet extends HttpServlet {
@@ -59,15 +61,37 @@ public class VehicleInsuranceServlet extends HttpServlet {
         } catch (DataInvalidException e) {
             req.setAttribute("error", "Data not saved");
 
-            req.getRequestDispatcher("Result.jsp").forward(req, resp);
+            req.getRequestDispatcher("VehicleInsurance.jsp").forward(req, resp);
 
         } catch (DataNotSavedException e) {
 
-            req.setAttribute("vehicleerror", "vehicle number is already exist");
-            req.getRequestDispatcher("Result.jsp").forward(req, resp);
+            req.setAttribute("vehicleerror", "Entered vehicle number is already exist");
+            req.getRequestDispatcher("VehicleInsurance.jsp").forward(req, resp);
         }
 
 
     }
 
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String vehicleNumber = req.getParameter("vehicleNumber");
+
+        try{
+            SearchDTO searchDTO = new SearchDTO(vehicleNumber);
+            System.out.println("searchDTO --->"+searchDTO);
+
+            Optional<VehicleInsuranceDTO> dto =vehicleInsuranceService.search(searchDTO);
+            if(dto.isPresent()){
+                req.setAttribute("dto", dto);
+                req.getRequestDispatcher("Search.jsp").forward(req, resp);
+
+}else {   req.setAttribute("vehicleerror", "vehicle number is not registered PLEASE click on Register Below");
+                req.getRequestDispatcher("Search.jsp").forward(req, resp);
+
+            }
+
+        } catch (Exception e) {
+
+        }
+    }
 }

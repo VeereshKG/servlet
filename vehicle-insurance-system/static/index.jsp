@@ -17,6 +17,7 @@
                  style="height: 40px; width: auto; margin-right: 10px; border-radius: 5px;">
             Insurance Portal
         </a>
+        <a class="navbar-brand d-flex align-items-center" href="Search.jsp">Search</a>
 
     </div>
 </nav>

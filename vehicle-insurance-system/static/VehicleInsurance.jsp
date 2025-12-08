@@ -85,8 +85,13 @@
                 <button type="button" class="btn btn-danger px-4" onclick="clearForm()">Clear</button>
             </div>
 
+            <div class="d-flex justify-content-center gap-3 mt-3">
+                <h1 style="color:red;">${error}</h1>
+                <h1 style="color:red;">${vehicleerror}</h1>
+            </div>
         </form>
     </div>
+
 </div>
 
 <script src="VehicleInsurance.js"> </script>

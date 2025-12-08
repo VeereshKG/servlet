@@ -1,4 +1,4 @@
-package com.xworkz.dto;
+package com.xworkz.insurance.dto;
 
 
 import lombok.*;
