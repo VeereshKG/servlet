@@ -1,4 +1,6 @@
 <!DOCTYPE html>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+
 <html lang="en" xmlns:c="http://www.w3.org/1999/XSL/Transform">
 <head>
     <meta charset="UTF-8">
@@ -36,35 +38,55 @@
                 <small id="vehicleErr"></small>
             </div>
 
-            <p id="errorMsg" class="text-danger fw-bold">${vehicleerror}</p>
-
-            <div id="detailsBlock" class="mt-3 p-3 border rounded bg-light" style="${empty dto ? 'display:none' : ''}">
-                <h4 class="text-success">Vehicle Found</h4>
-                <p><strong>Owner Name:</strong> ${dto.get().ownerName}</p>
-                <p><strong>Vehicle Number:</strong> ${dto.get().vehicleNumber}</p>
-                <p><strong>Vehicle Type:</strong> ${dto.get().vehicleType}</p>
-                <p><strong>Insurance Type:</strong> ${dto.get().insuranceType}</p>
-                <p><strong>Amount:</strong> ${dto.get().amount}</p>
-            </div>
-
-
-
-
             <div class="d-flex justify-content-center gap-3 mt-3">
 
-                    <a href="VehicleInsurance.jsp" class="btn btn-success">Register</a>
-                <button type="submit" class="btn btn-primary px-4">Search</button>
-                <button type="button" class="btn btn-danger px-4" onclick="clearAll()">Clear</button>
+                <a href="VehicleInsurance.jsp" class="btn btn-success">Register</a>
+                <input type="submit" value="Submit" name="submit" class="btn btn-primary px-4"/>
+                <input type="submit" value="clear" name="submit" class="btn btn-danger px-4" />
 
             </div>
+            <c:if test="${dto != null}">
+                <div class="mt-3 p-3 border rounded bg-light">
+                    <h4 class="text-success">Vehicle Found</h4>
+                    <p><strong>Owner Name:</strong> ${dto.ownerName}</p>
+                    <p><strong>Vehicle Number:</strong> ${dto.vehicleNumber}</p>
+                    <p><strong>Vehicle Type:</strong> ${dto.vehicleType}</p>
+                    <p><strong>Insurance Type:</strong> ${dto.insuranceType}</p>
+                    <p><strong>Amount:</strong> ${dto.amount}</p>
+                    <div class="d-flex justify-content-center gap-3 mt-3">
+
+                        <a href="edit?vehicleNumber=${dto.vehicleNumber}" class="btn btn-success">Edit</a>
+
+
+                    </div>
+                </div>
+            </c:if>
+
+            <p class="text-danger fw-bold">${vehicleerror}</p>
         </form>
 
     </div>
 </div>
 <script>
-    function clearAll() {
-        document.getElementById("errorMsg").innerHTML = "";
-        document.getElementById("detailsBlock").style.display = "none";
+
+        const vehicleField = document.getElementById("vehicleNumber");
+
+    function validateVehicle() {
+        let value = vehicleField.value.trim();
+        let regex = /^[A-Z]{2}-\d{2}-[A-Z]{2}-\d{4}$/;
+        if (!regex.test(value)) {
+            vehicleField.classList.add("invalid-input");
+            vehicleField.classList.remove("valid-input");
+            document.getElementById("vehicleErr").innerHTML = "Enter valid vehicle number";
+            document.getElementById("vehicleErr").style.color = "red";
+            return false;
+        } else {
+            vehicleField.classList.remove("invalid-input");
+            vehicleField.classList.add("valid-input");
+            document.getElementById("vehicleErr").innerHTML = "Valid number";
+            document.getElementById("vehicleErr").style.color = "green";
+            return true;
+        }
     }
 </script>
 
