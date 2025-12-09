@@ -18,6 +18,7 @@
             Insurance Portal
         </a>
 
+        <span >Hello  ${name} </span>
     </div>
 </nav>
 

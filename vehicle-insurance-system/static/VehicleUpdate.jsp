@@ -35,9 +35,9 @@
 </nav>
 <div class="container mt-5 d-flex justify-content-center">
     <div class="card shadow-sm p-4" style="width: 40rem;">
-        <h2 class="text-center mb-4 text-primary">Vehicle Insurance Enrollment</h2>
+        <h2 class="text-center mb-4 text-primary">Vehicle Insurance Update</h2>
 
-        <form id="insuranceForm" action="vehicleUpdate" method="post" onsubmit="return validateForm()">
+        <form id="insuranceForm" action="" method="get" onsubmit="return validateForm()">
 
             <div class="mb-3">
                 <label class="form-label fw-bold">Owner Name <span style="color:red">*</span></label>

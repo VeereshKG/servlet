@@ -49,7 +49,6 @@ public class VehicleInsuranceServlet extends HttpServlet {
             vehicleInsuranceService.validate(vehicleInsuranceDTO);
 
 
-
             System.out.println("Setting Attribute...");
 
             req.setAttribute("ownerName", ownerName);
@@ -59,7 +58,13 @@ public class VehicleInsuranceServlet extends HttpServlet {
             req.setAttribute("amount", amount);
             req.setAttribute("success", "Data Saved Successfully");
 
+            //httpSession
+           HttpSession httpSession = req.getSession();
+           httpSession.setAttribute("name",ownerName);
+
             System.out.println("Forwarding to Result.jsp");
+
+            req.getRequestDispatcher("Result.jsp").forward(req, resp);
 
 
         } catch (DataInvalidException e) {
@@ -86,18 +91,18 @@ public class VehicleInsuranceServlet extends HttpServlet {
             String vehicleNumber = req.getParameter("vehicleNumber");
 
 
-                SearchDTO searchDTO = new SearchDTO(vehicleNumber);
-                System.out.println("searchDTO --->" + searchDTO);
+            SearchDTO searchDTO = new SearchDTO(vehicleNumber);
+            System.out.println("searchDTO --->" + searchDTO);
 
-                Optional<VehicleInsuranceDTO> dto = vehicleInsuranceService.search(searchDTO);
-                if (dto.isPresent()) {
-                    req.setAttribute("dto", dto.get());
+            Optional<VehicleInsuranceDTO> dto = vehicleInsuranceService.search(searchDTO);
+            if (dto.isPresent()) {
+                req.setAttribute("dto", dto.get());
 
-                } else {
-                    req.setAttribute("vehicleerror", "vehicle number is not registered PLEASE click on Register");
+            } else {
+                req.setAttribute("vehicleerror", "vehicle number is not registered PLEASE click on Register");
 
 
-                }
+            }
         }
         req.getRequestDispatcher("Search.jsp").forward(req, resp);
     }

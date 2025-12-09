@@ -5,7 +5,7 @@ import com.xworkz.insurance.dto.VehicleInsuranceDTO;
 import com.xworkz.insurance.exception.DataInvalidException;
 import com.xworkz.insurance.service.VehicleInsuranceService;
 import com.xworkz.insurance.service.VehicleInsuranceServiceImpl;
-import lombok.SneakyThrows;
+
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -35,17 +35,15 @@ public class VehicleUpdateServlet extends HttpServlet {
         String vehicleNo = req.getParameter("vehicleNumber");
         SearchDTO searchDTO = new SearchDTO(vehicleNo);
 
-        Optional<VehicleInsuranceDTO> vehicleInsuranceDTO = Optional.empty();
-
         try {
-            vehicleInsuranceDTO = vehicleInsuranceService.search(searchDTO);
+            Optional<VehicleInsuranceDTO> vehicleInsuranceDTO = vehicleInsuranceService.search(searchDTO);
 
+            System.out.println("Forwarding to VehicleUpdate.jsp");
             req.setAttribute("updateDTO", vehicleInsuranceDTO.get());
             req.getRequestDispatcher("VehicleUpdate.jsp").forward(req, resp);
 
         } catch (DataInvalidException e) {
-            req.setAttribute("error", e.getMessage());
-            req.getRequestDispatcher("Search.jsp").forward(req, resp);
+
         }
     }
 }
