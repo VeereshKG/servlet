@@ -16,7 +16,7 @@
         </a>
 
 
-    <span> Welcome ${sessionName} </span>
+        <span> Welcome ${sessionName} </span>
     </div>
 </nav>
 
@@ -34,7 +34,7 @@
         <p><strong>Mobile:</strong> ${mobile}</p>
 
         <div class="text-center mt-3">
-        <a href="DrivingLicenceForm.jsp" class="btn btn-primary mt-3">Submit Another</a>
+            <a href="DrivingLicenceForm.jsp" class="btn btn-primary mt-3">Submit Another</a>
         </div>
     </div>
 </div>

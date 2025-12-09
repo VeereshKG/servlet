@@ -9,7 +9,7 @@ import java.io.Serializable;
 
 public class SearchDTO implements Serializable, Comparable<Long> {
 
-    public SearchDTO(){
+    public SearchDTO() {
         System.out.println("Running in searchDTO");
     }
 

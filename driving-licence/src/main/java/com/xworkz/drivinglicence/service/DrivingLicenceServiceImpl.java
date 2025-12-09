@@ -59,5 +59,5 @@ public class DrivingLicenceServiceImpl implements DrivingLicenceService {
             throw new DataInvalidException("aadhar number is invalid");
         }
     }
-    
+
 }

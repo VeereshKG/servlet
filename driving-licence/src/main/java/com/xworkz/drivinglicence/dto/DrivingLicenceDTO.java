@@ -17,7 +17,7 @@ public class DrivingLicenceDTO implements Serializable, Comparable<String> {
     private long aadhar;
     private long mobile;
 
-    public DrivingLicenceDTO(){
+    public DrivingLicenceDTO() {
         System.out.println("Running in DrivingLicenceDTO");
     }
 

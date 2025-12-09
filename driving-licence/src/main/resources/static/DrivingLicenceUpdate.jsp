@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -26,7 +25,7 @@
 
             <div class="mb-3">
                 <label>Name *</label>
-                <input type="text" name="name" class="form-control" value="${updateDTO.name}" >
+                <input type="text" name="name" class="form-control" value="${updateDTO.name}">
             </div>
 
             <div class="mb-3">

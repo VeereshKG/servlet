@@ -33,18 +33,17 @@ public class DrivingLicenceUpdateServlet extends HttpServlet {
         String aadhar = req.getParameter("AadharNo");
 
 
-
         SearchDTO searchDTO = new SearchDTO(Long.parseLong(aadhar));
 
         try {
             Optional<DrivingLicenceDTO> optionalDTO = service.search(searchDTO);
 
-                req.setAttribute("updateDTO", optionalDTO.get());
-                System.out.println("Forwarding to DrivingLicenceUpdate.jsp");
-                req.getRequestDispatcher("DrivingLicenceUpdate.jsp").forward(req, resp);
+            req.setAttribute("updateDTO", optionalDTO.get());
+            System.out.println("Forwarding to DrivingLicenceUpdate.jsp");
+            req.getRequestDispatcher("DrivingLicenceUpdate.jsp").forward(req, resp);
 
 
-        }catch (DataInvalidException e){
+        } catch (DataInvalidException e) {
 
         }
     }
