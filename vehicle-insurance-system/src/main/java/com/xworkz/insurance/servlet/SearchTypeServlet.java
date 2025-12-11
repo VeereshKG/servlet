@@ -13,10 +13,11 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 
-@WebServlet(urlPatterns = "/type",loadOnStartup = 1)
+@WebServlet(urlPatterns = "/type", loadOnStartup = 1)
 public class SearchTypeServlet extends HttpServlet {
 
     VehicleInsuranceService service = new VehicleInsuranceServiceImpl();
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         System.out.printf("Running doGet in SearchTypeServlet");
@@ -26,16 +27,16 @@ public class SearchTypeServlet extends HttpServlet {
         SearchTypeDTO searchTypeDTO = new SearchTypeDTO();
         searchTypeDTO.setVehicleType(type);
 
-        System.out.println("searchTypeDTO-->"+searchTypeDTO);
+        System.out.println("searchTypeDTO-->" + searchTypeDTO);
 
         List<VehicleInsuranceDTO> dtos = service.findByType(searchTypeDTO);
 
-        if (dtos != null){
-            req.setAttribute("dtoList",dtos);
-            req.getRequestDispatcher("SearchByVehicleType.jsp").forward(req,resp);
-        }else {
-            req.setAttribute("errormsg","Entered VehicleType is Not Found");
-            req.getRequestDispatcher("SearchByVehicleType.jsp").forward(req,resp);
+        if (dtos != null) {
+            req.setAttribute("dtoList", dtos);
+            req.getRequestDispatcher("SearchByVehicleType.jsp").forward(req, resp);
+        } else {
+            req.setAttribute("errormsg", "Entered VehicleType is Not Found");
+            req.getRequestDispatcher("SearchByVehicleType.jsp").forward(req, resp);
         }
 
 

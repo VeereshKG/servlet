@@ -30,7 +30,6 @@
 
         <h2 class="text-center mb-4 text-primary">Search for Vehicle Details</h2>
 
-        <!-- FORM START -->
         <form action="type" method="get">
 
             <div class="mb-3">
@@ -48,12 +47,7 @@
             </div>
 
 
-        <!-- FORM END -->
 
-        <!-- ERROR MSG -->
-        <p class="text-danger fw-bold mt-3">${vehicleerror}</p>
-
-        <!-- TABLE START -->
         <c:if test="${dtoList != null}">
             <table class="table table-striped table-hover mt-4">
                 <thead class="table-dark">

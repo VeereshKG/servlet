@@ -13,11 +13,11 @@ public interface VehicleInsuranceService {
 
     void validate(VehicleInsuranceDTO vehicleInsuranceDTO) throws DataInvalidException, DataNotSavedException;
 
-    Optional<VehicleInsuranceDTO> search(SearchDTO searchDTO) throws DataInvalidException ;
+    Optional<VehicleInsuranceDTO> search(SearchDTO searchDTO) throws DataInvalidException;
 
-    default List<VehicleInsuranceDTO> findByType(SearchTypeDTO searchTypeDTO){
+    default List<VehicleInsuranceDTO> findByType(SearchTypeDTO searchTypeDTO) {
 
         return java.util.Collections.emptyList();
     }
-    }
+}
 

@@ -15,8 +15,7 @@ public interface VehicleInsuranceDAO {
 
     Optional<VehicleInsuranceDTO> searchByVehicleNumber(SearchDTO searchDTO);
 
-    default List<VehicleInsuranceDTO> searchByVehicleType(String type)
-    {
+    default List<VehicleInsuranceDTO> searchByVehicleType(String type) {
         return Collections.emptyList();
     }
 }

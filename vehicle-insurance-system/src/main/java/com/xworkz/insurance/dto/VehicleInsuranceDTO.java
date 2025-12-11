@@ -12,7 +12,7 @@ import java.io.Serializable;
 @EqualsAndHashCode
 @ToString
 
-public class VehicleInsuranceDTO implements Serializable,Comparable<String> {
+public class VehicleInsuranceDTO implements Serializable, Comparable<String> {
 
     private String ownerName;
     private String vehicleNumber;

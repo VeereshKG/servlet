@@ -48,14 +48,14 @@ public class VehicleInsuranceServiceImpl implements VehicleInsuranceService {
     }
 
     @Override
-    public Optional<VehicleInsuranceDTO> search(SearchDTO searchDTO) throws DataInvalidException  {
+    public Optional<VehicleInsuranceDTO> search(SearchDTO searchDTO) throws DataInvalidException {
 
 
-      if (searchDTO.getVehicleNumber() != null) {
-          return  vehicleInsuranceDAO.searchByVehicleNumber(searchDTO);
-      }else{
-          throw new DataInvalidException("Vehicle number is invalid");
-      }
+        if (searchDTO.getVehicleNumber() != null) {
+            return vehicleInsuranceDAO.searchByVehicleNumber(searchDTO);
+        } else {
+            throw new DataInvalidException("Vehicle number is invalid");
+        }
 
 
     }
@@ -66,7 +66,7 @@ public class VehicleInsuranceServiceImpl implements VehicleInsuranceService {
         System.out.println("Running findByType");
 
         String type = searchTypeDTO.getVehicleType();
-        if (type != null && type.length()>=3){
+        if (type != null && type.length() >= 3) {
             System.out.println("type is valid");
 
             List<VehicleInsuranceDTO> insuranceDTOS = this.vehicleInsuranceDAO.searchByVehicleType(type);
