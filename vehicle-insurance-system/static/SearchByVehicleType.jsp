@@ -46,12 +46,13 @@
                 <input type="submit" name="submit" value="Clear" class="btn btn-danger px-4"/>
             </div>
 
-
+            <p class="text-danger fw-bold">${errormsg}</p>
 
         <c:if test="${dtoList != null}">
             <table class="table table-striped table-hover mt-4">
                 <thead class="table-dark">
                 <tr>
+                    <th>Id</th>
                     <th>Owner Name</th>
                     <th>Vehicle Number</th>
                     <th>Vehicle Type</th>
@@ -64,6 +65,7 @@
                 <tbody>
                 <c:forEach items="${dtoList}" var="item">
                     <tr>
+                        <td>${item.id}</td>
                         <td>${item.ownerName}</td>
                         <td>${item.vehicleNumber}</td>
                         <td>${item.vehicleType}</td>

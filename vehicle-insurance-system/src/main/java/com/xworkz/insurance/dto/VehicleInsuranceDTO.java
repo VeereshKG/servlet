@@ -14,6 +14,7 @@ import java.io.Serializable;
 
 public class VehicleInsuranceDTO implements Serializable, Comparable<String> {
 
+    private  int id;
     private String ownerName;
     private String vehicleNumber;
     private String vehicleType;

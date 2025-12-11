@@ -58,7 +58,7 @@
 
             <div class="mb-3">
                 <label class="form-label fw-bold">Vehicle Type<span style="color:red">*</span></label>
-                <input type="text" id="vehicleType" name="vehicleType" class="form-control"
+                <input type="text" id="vehicleType" name="vehicleType" class="form-control" value="${updateDTO.vehicleType}"
                        placeholder="Enter vehicle type">
                 <small id="typeErr"></small>
             </div>

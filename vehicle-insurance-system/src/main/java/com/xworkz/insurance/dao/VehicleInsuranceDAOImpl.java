@@ -68,12 +68,13 @@ public class VehicleInsuranceDAOImpl implements VehicleInsuranceDAO {
 
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
+                int id = resultSet.getInt(1);
                 String ownerName = resultSet.getString(2);
                 String vehicleNumber = resultSet.getString(3);
                 String vehicleType = resultSet.getString(4);
                 String insuranceType = resultSet.getString(5);
                 double amount = resultSet.getDouble(6);
-                VehicleInsuranceDTO vehicleInsuranceDTO = new VehicleInsuranceDTO(ownerName, vehicleNumber, vehicleType, insuranceType, amount);
+                VehicleInsuranceDTO vehicleInsuranceDTO = new VehicleInsuranceDTO(id,ownerName, vehicleNumber, vehicleType, insuranceType, amount);
                 return Optional.of(vehicleInsuranceDTO);
             }
         }
@@ -100,13 +101,14 @@ public class VehicleInsuranceDAOImpl implements VehicleInsuranceDAO {
 
             while (set.next()) {
 
+                int id = set.getInt(1);
                 String ownerName = set.getString(2);
                 String vehicleNumber = set.getString(3);
                 String vehicleType = set.getString(4);
                 String insuranceType = set.getString(5);
                 Double amount = set.getDouble(6);
 
-                VehicleInsuranceDTO vehicleInsuranceDTO = new VehicleInsuranceDTO(ownerName, vehicleNumber, vehicleType, insuranceType, amount);
+                VehicleInsuranceDTO vehicleInsuranceDTO = new VehicleInsuranceDTO(id,ownerName, vehicleNumber, vehicleType, insuranceType, amount);
 
                 dtoList.add(vehicleInsuranceDTO);
             }
