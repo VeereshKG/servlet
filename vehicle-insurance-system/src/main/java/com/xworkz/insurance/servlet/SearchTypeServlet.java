@@ -20,25 +20,31 @@ public class SearchTypeServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        System.out.printf("Running doGet in SearchTypeServlet");
-
-        String type = req.getParameter("vehicletype");
-
-        SearchTypeDTO searchTypeDTO = new SearchTypeDTO();
-        searchTypeDTO.setVehicleType(type);
-
-        System.out.println("searchTypeDTO-->" + searchTypeDTO);
-
-        List<VehicleInsuranceDTO> dtos = service.findByType(searchTypeDTO);
-
-        if (dtos != null) {
-            req.setAttribute("dtoList", dtos);
-            req.getRequestDispatcher("SearchByVehicleType.jsp").forward(req, resp);
+        System.out.println("Running doGet in SearchTypeServlet");
+        String submit = req.getParameter("submit");
+        if ("clear".equalsIgnoreCase(submit)) {
+            req.setAttribute("dto", null);
         } else {
-            req.setAttribute("errormsg", "Entered VehicleType is Not Found");
-            req.getRequestDispatcher("SearchByVehicleType.jsp").forward(req, resp);
+            String type = req.getParameter("vehicletype");
+
+            SearchTypeDTO searchTypeDTO = new SearchTypeDTO();
+            searchTypeDTO.setVehicleType(type);
+
+            System.out.println("searchTypeDTO-->" + searchTypeDTO);
+
+            List<VehicleInsuranceDTO> dtos = service.findByType(searchTypeDTO);
+
+            if (dtos != null && !dtos.isEmpty()) {
+                req.setAttribute("dtoList", dtos);
+
+            } else {
+                req.setAttribute("errormsg", "Entered VehicleType is Not Found");
+
+            }
+
+
         }
-
-
+        req.getRequestDispatcher("SearchByVehicleType.jsp").forward(req, resp);
     }
+
 }

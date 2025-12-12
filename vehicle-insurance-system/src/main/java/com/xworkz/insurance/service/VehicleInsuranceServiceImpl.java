@@ -76,5 +76,32 @@ public class VehicleInsuranceServiceImpl implements VehicleInsuranceService {
         System.out.println("type is Invalid");
         return Collections.emptyList();
     }
-}
+
+    @Override
+    public boolean validateAndUpdate(VehicleInsuranceDTO vehicleInsuranceDTO) {
+
+        boolean isInvalid = false;
+
+        if (vehicleInsuranceDTO == null) {
+            isInvalid = true;
+        } else if (vehicleInsuranceDTO.getOwnerName() == null || vehicleInsuranceDTO.getOwnerName().length() < 3) {
+            isInvalid = true;
+        } else if (vehicleInsuranceDTO.getVehicleNumber() == null) {
+            isInvalid = true;
+        } else if (vehicleInsuranceDTO.getVehicleType() == null) {
+            isInvalid = true;
+        } else if (vehicleInsuranceDTO.getInsuranceType() == null) {
+            isInvalid = true;
+        } else if (vehicleInsuranceDTO.getAmount() == 0.0) {
+            isInvalid = true;
+        }
+        if (!isInvalid) {
+
+            this.vehicleInsuranceDAO.update(vehicleInsuranceDTO);
+        }
+        return isInvalid;
+    }
+
+    }
+
 

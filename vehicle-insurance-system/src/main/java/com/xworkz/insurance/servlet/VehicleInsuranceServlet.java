@@ -32,7 +32,6 @@ public class VehicleInsuranceServlet extends HttpServlet {
 
         System.out.println("Getting parameter");
 
-        String id = req.getParameter("id");
         String ownerName = req.getParameter("ownerName");
         String vehicleNumber = req.getParameter("vehicleNumber");
         String vehicleType = req.getParameter("vehicleType");
@@ -44,7 +43,7 @@ public class VehicleInsuranceServlet extends HttpServlet {
         try {
 
 
-            vehicleInsuranceDTO = new VehicleInsuranceDTO(Integer.parseInt(id),ownerName, vehicleNumber, vehicleType, insuranceType, Double.parseDouble(amount));
+            vehicleInsuranceDTO = new VehicleInsuranceDTO(ownerName, vehicleNumber, vehicleType, insuranceType, Double.parseDouble(amount));
 
             System.out.println("VehicleInsurance ---> " + vehicleInsuranceDTO);
 

@@ -18,4 +18,8 @@ public interface VehicleInsuranceDAO {
     default List<VehicleInsuranceDTO> searchByVehicleType(String type) {
         return Collections.emptyList();
     }
+
+    default  void update(VehicleInsuranceDTO vehicleInsuranceDTO){
+
+    }
 }

@@ -19,5 +19,9 @@ public interface VehicleInsuranceService {
 
         return java.util.Collections.emptyList();
     }
+
+    default boolean validateAndUpdate(VehicleInsuranceDTO vehicleInsuranceDTO) {
+        return false;
+    }
 }
 

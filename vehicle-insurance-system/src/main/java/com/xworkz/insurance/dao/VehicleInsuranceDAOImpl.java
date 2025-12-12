@@ -74,7 +74,7 @@ public class VehicleInsuranceDAOImpl implements VehicleInsuranceDAO {
                 String vehicleType = resultSet.getString(4);
                 String insuranceType = resultSet.getString(5);
                 double amount = resultSet.getDouble(6);
-                VehicleInsuranceDTO vehicleInsuranceDTO = new VehicleInsuranceDTO(id,ownerName, vehicleNumber, vehicleType, insuranceType, amount);
+                VehicleInsuranceDTO vehicleInsuranceDTO = new VehicleInsuranceDTO(ownerName, vehicleNumber, vehicleType, insuranceType, amount);
                 return Optional.of(vehicleInsuranceDTO);
             }
         }
@@ -101,14 +101,13 @@ public class VehicleInsuranceDAOImpl implements VehicleInsuranceDAO {
 
             while (set.next()) {
 
-                int id = set.getInt(1);
                 String ownerName = set.getString(2);
                 String vehicleNumber = set.getString(3);
                 String vehicleType = set.getString(4);
                 String insuranceType = set.getString(5);
                 Double amount = set.getDouble(6);
 
-                VehicleInsuranceDTO vehicleInsuranceDTO = new VehicleInsuranceDTO(id,ownerName, vehicleNumber, vehicleType, insuranceType, amount);
+                VehicleInsuranceDTO vehicleInsuranceDTO = new VehicleInsuranceDTO(ownerName, vehicleNumber, vehicleType, insuranceType, amount);
 
                 dtoList.add(vehicleInsuranceDTO);
             }
@@ -116,5 +115,26 @@ public class VehicleInsuranceDAOImpl implements VehicleInsuranceDAO {
         }
 
         return dtoList;
+    }
+
+    @Override
+    @SneakyThrows
+    public void update(VehicleInsuranceDTO vehicleInsuranceDTO) {
+        Class.forName("com.mysql.cj.jdbc.Driver");
+
+        String updatesql = "Update insurance set owner_name = ?  , vehicleType=? ,insuranceType=? ,premium_Amount = ? where vehicleNumber = ?; ";
+
+        try (Connection connection = DriverManager.getConnection(DBConstant.URL.getPropertis(), DBConstant.USERNAME.getPropertis(), DBConstant.PASSWORD.getPropertis());
+             PreparedStatement preparedStatement = connection.prepareStatement(updatesql)) {
+
+            preparedStatement.setString(1, vehicleInsuranceDTO.getOwnerName());
+            preparedStatement.setString(5, vehicleInsuranceDTO.getVehicleNumber());
+            preparedStatement.setString(2, vehicleInsuranceDTO.getVehicleType());
+            preparedStatement.setString(3, vehicleInsuranceDTO.getInsuranceType());
+            preparedStatement.setDouble(4, vehicleInsuranceDTO.getAmount());
+
+          int rowsAffected =  preparedStatement.executeUpdate();
+            System.out.println("rows Updated-->"+rowsAffected);
+        }
     }
 }

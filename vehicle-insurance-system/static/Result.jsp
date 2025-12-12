@@ -26,7 +26,7 @@
 <div class="container mt-5 d-flex justify-content-center">
     <div class="card shadow-sm p-4" style="width: 40rem;">
         <h3 class="text-center text-primary mb-4">Insurance Details Submitted</h3>
-        <h1 style="color:green;">${success}</h1>
+        <h1 style="color:green;">${sucess}</h1>
 
 
 

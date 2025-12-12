@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Optional;
 
-@WebServlet(urlPatterns = "/edit", loadOnStartup = 1)
+@WebServlet(urlPatterns = {"/edit", "/update"}, loadOnStartup = 1)
 
 public class VehicleUpdateServlet extends HttpServlet {
 
@@ -45,5 +45,31 @@ public class VehicleUpdateServlet extends HttpServlet {
         } catch (DataInvalidException e) {
 
         }
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        System.out.println("Running doPost method in VehicleUpdateServlet");
+
+        String ownerName = req.getParameter("ownerName");
+        String vehicleNumber = req.getParameter("vehicleNumber");
+        String vehicleType = req.getParameter("vehicleType");
+        String insuranceType = req.getParameter("insuranceType");
+        String amount = req.getParameter("amount");
+
+        System.out.println("Creating instance of dto in VehicleUpdateServlet");
+        VehicleInsuranceDTO vehicleInsuranceDTO = new VehicleInsuranceDTO(ownerName, vehicleNumber, vehicleType, insuranceType, Double.parseDouble(amount));
+
+        System.out.println("Invoking validateAndUpdate method");
+        this.vehicleInsuranceService.validateAndUpdate(vehicleInsuranceDTO);
+
+        req.setAttribute("ownerName", ownerName);
+        req.setAttribute("vehicleNumber", vehicleNumber);
+        req.setAttribute("vehicleType", vehicleType);
+        req.setAttribute("insuranceType", insuranceType);
+        req.setAttribute("amount", amount);
+        req.setAttribute("sucess" ,"Updated Successfully");
+
+        req.getRequestDispatcher("Result.jsp").forward(req, resp);
     }
 }

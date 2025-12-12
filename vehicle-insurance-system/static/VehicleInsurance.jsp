@@ -61,11 +61,11 @@
 
             <div class="mb-3">
                 <label class="form-label fw-bold">Insurance Type <span style="color:red">*</span></label>
-                <select id="insuranceType" name="insuranceType"  class="form-select" value="${preData.insuranceType}">
+                <select id="insuranceType" name="insuranceType"  class="form-select" >
                     <option value="">Select</option>
-                    <option value="Third Party">Third Party</option>
-                    <option  value="Comprehensive">Comprehensive</option>
-                    <option value="Own Damage">Own Damage</option>
+                    <option value="Third Party" ${preData.insuranceType == 'Third Party' ? 'selected' : ''}>Third Party</option>
+                    <option value="Comprehensive" ${preData.insuranceType == 'Comprehensive' ? 'selected' : ''}>Comprehensive</option>
+                    <option value="Own Damage" ${preData.insuranceType == 'Own Damage' ? 'selected' : ''}>Own Damage</option>
                 </select>
                 <small id="insErr"></small>
             </div>

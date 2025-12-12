@@ -40,7 +40,7 @@
     <div class="card shadow-sm p-4" style="width: 40rem;">
         <h2 class="text-center mb-4 text-primary">Vehicle Insurance Update</h2>
 
-        <form id="insuranceForm" action="" method="get" onsubmit="return validateForm()">
+        <form id="insuranceForm" action="update" method="post" onsubmit="return validateForm()">
 
             <div class="mb-3">
                 <label class="form-label fw-bold">Owner Name <span style="color:red">*</span></label>
@@ -52,7 +52,7 @@
             <div class="mb-3">
                 <label class="form-label fw-bold">Vehicle Number <span style="color:red">*</span></label>
                 <input type="text" id="vehicleNumber" name="vehicleNumber" value="${updateDTO.vehicleNumber}" class="form-control"
-                    disabled   placeholder="KA-01-AB-1234">
+                    readonly   placeholder="KA-01-AB-1234">
                 <small id="vehicleErr"></small>
             </div>
 
@@ -68,9 +68,9 @@
                 <label class="form-label fw-bold">Insurance Type <span style="color:red">*</span></label>
                 <select id="insuranceType" name="insuranceType" class="form-select">
                     <option value="">Select</option>
-                    <option value="Third Party">Third Party</option>
-                    <option value="Comprehensive">Comprehensive</option>
-                    <option value="Own Damage">Own Damage</option>
+                    <option value="Third Party" ${updateDTO.insuranceType == 'Third Party' ? 'selected' : ''}>Third Party</option>
+                    <option value="Comprehensive" ${updateDTO.insuranceType == 'Comprehensive' ? 'selected' : ''}>Comprehensive</option>
+                    <option value="Own Damage" ${updateDTO.insuranceType == 'Own Damage' ? 'selected' : ''}>Own Damage</option>
                 </select>
                 <small id="insErr"></small>
             </div>
