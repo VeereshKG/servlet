@@ -1,5 +1,6 @@
 package com.xworkz.iplbidingapp.dao;
 
+import com.xworkz.iplbidingapp.dto.BidDTO;
 import com.xworkz.iplbidingapp.dto.CompanyDTO;
 import com.xworkz.iplbidingapp.dto.PlayerDTO;
 import com.xworkz.iplbidingapp.dto.SearchDTO;
@@ -18,4 +19,10 @@ public interface PlayerDAO {
    List<PlayerDTO> searchForPlayers(SearchDTO searchDTO);
 
     boolean saveBidAmount(String playerName, String companyName, double amount);
+
+    boolean incrementBidCount(String playerName);
+    int getBidCount(String playerName);
+    boolean markSold(String playerName);
+
+    BidDTO getHighestBid(String playerName);
 }

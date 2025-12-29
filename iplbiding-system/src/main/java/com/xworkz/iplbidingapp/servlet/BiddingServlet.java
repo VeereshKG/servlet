@@ -22,6 +22,8 @@ public class BiddingServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
 
+
+
         System.out.println("doget in BiddingServlet");
 
         String playerName = req.getParameter("PlayerName");

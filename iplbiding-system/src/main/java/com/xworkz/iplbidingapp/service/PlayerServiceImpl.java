@@ -61,42 +61,40 @@ public class PlayerServiceImpl implements PlayerService {
             return playerDAO.searchByEmail(companyDTO);
         }
     }
-
     @Override
     public List<PlayerDTO> searchForPlayers(SearchDTO searchDTO) {
-        System.out.println("SearchForPlayers");
+
         boolean invalid = false;
 
         if (searchDTO != null) {
             if (searchDTO.getPlayerType() == null || searchDTO.getPlayerType().isEmpty()) {
                 invalid = true;
             }
-            if (searchDTO.getBattingAvg() < 0) {
-                invalid = true;
-            }
-            if (searchDTO.getBowlingAvg() < 0) {
-                invalid = true;
-            }
-            if (searchDTO.getStumps() < 0) {
-                invalid = true;
-            }
+            if (searchDTO.getBattingAvg() < 0) invalid = true;
+            if (searchDTO.getBowlingAvg() < 0) invalid = true;
+            if (searchDTO.getStumps() < 0) invalid = true;
         }
+
         if (!invalid) {
-            System.out.println("invoking DAO");
-            List<PlayerDTO> saved = playerDAO.searchForPlayers(searchDTO);
-            return saved;
-        } else {
-            return null;
+            return playerDAO.searchForPlayers(searchDTO);
         }
+        return null;
     }
+
 
     @Override
     public boolean placeBid(String playerName, String companyName, double amount) {
         System.out.println("Stating placeBid");
-        if (playerName == null || companyName == null || amount <= 0) {
-            return false;
-        }
+        boolean saved = playerDAO.saveBidAmount(playerName,companyName,amount);
 
-        return playerDAO.saveBidAmount(playerName, companyName, amount);
+        if (saved) {
+            playerDAO.incrementBidCount(playerName);
+
+            int count = playerDAO.getBidCount(playerName);
+            if (count >= 3) {
+                playerDAO.markSold(playerName);
+            }
+        }
+        return saved;
     }
 }

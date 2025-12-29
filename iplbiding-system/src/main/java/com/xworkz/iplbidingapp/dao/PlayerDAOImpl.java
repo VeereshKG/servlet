@@ -1,6 +1,7 @@
 package com.xworkz.iplbidingapp.dao;
 
 import com.xworkz.iplbidingapp.constant.DBConstant;
+import com.xworkz.iplbidingapp.dto.BidDTO;
 import com.xworkz.iplbidingapp.dto.CompanyDTO;
 import com.xworkz.iplbidingapp.dto.PlayerDTO;
 import com.xworkz.iplbidingapp.dto.SearchDTO;
@@ -105,19 +106,25 @@ public class PlayerDAOImpl implements PlayerDAO {
 
         Class.forName("com.mysql.cj.jdbc.Driver");
 
-        String selectQuery = "SELECT * FROM player WHERE player_type= ? AND batting_avg >= ? AND  bowling_avg >= ? AND  stumps >= ?";
+        String selectQuery =
+                "SELECT * FROM player WHERE player_type=? AND batting_avg>=? AND bowling_avg>=? AND stumps>=?";
 
         try (Connection connection = DriverManager.getConnection(
-                DBConstant.URL.getPropertis(), DBConstant.USERNAME.getPropertis(), DBConstant.PASSWORD.getPropertis());
+                DBConstant.URL.getPropertis(),
+                DBConstant.USERNAME.getPropertis(),
+                DBConstant.PASSWORD.getPropertis());
+
              PreparedStatement preparedStatement = connection.prepareStatement(selectQuery)) {
 
             preparedStatement.setString(1, searchDTO.getPlayerType());
             preparedStatement.setDouble(2, searchDTO.getBattingAvg());
             preparedStatement.setDouble(3, searchDTO.getBowlingAvg());
             preparedStatement.setInt(4, searchDTO.getStumps());
+
             ResultSet rs = preparedStatement.executeQuery();
 
             while (rs.next()) {
+
                 PlayerDTO dto = new PlayerDTO();
                 dto.setPlayerName(rs.getString("player_name"));
                 dto.setAge(rs.getInt("age"));
@@ -126,13 +133,25 @@ public class PlayerDAOImpl implements PlayerDAO {
                 dto.setBattingAvg(rs.getDouble("batting_avg"));
                 dto.setBowlingAvg(rs.getDouble("bowling_avg"));
                 dto.setStumps(rs.getInt("stumps"));
+                dto.setSold(rs.getBoolean("sold"));
+
+                if (dto.isSold()) {
+                    BidDTO bid = getHighestBid(dto.getPlayerName());
+                    if (bid != null) {
+                        dto.setSoldCompany(bid.getCompanyName());
+                        dto.setSoldAmount(bid.getPrice() / 10000000);
+                        System.out.println("HIGHEST BID => " + bid.getCompanyName() + " " + bid.getPrice());
+
+                    }
+                }
+
 
                 list.add(dto);
             }
         }
-
         return list;
     }
+
 
     @Override
     @SneakyThrows
@@ -158,5 +177,83 @@ public class PlayerDAOImpl implements PlayerDAO {
         }
         return false;
     }
+
+
+    @Override
+    @SneakyThrows
+    public boolean incrementBidCount(String playerName) {
+        String sql = "UPDATE player SET bid_count = bid_count + 1 WHERE player_name = ?";
+        try (Connection connection = DriverManager.getConnection(
+                DBConstant.URL.getPropertis(), DBConstant.USERNAME.getPropertis(), DBConstant.PASSWORD.getPropertis());
+             PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setString(1, playerName);
+            return ps.executeUpdate() > 0;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    @Override
+    public int getBidCount(String playerName) {
+        String sql = "SELECT bid_count FROM player WHERE player_name = ?";
+        try (Connection connection = DriverManager.getConnection(
+                DBConstant.URL.getPropertis(), DBConstant.USERNAME.getPropertis(), DBConstant.PASSWORD.getPropertis());
+             PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setString(1, playerName);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getInt("bid_count");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
+    @Override
+    public boolean markSold(String playerName) {
+        String sql = "UPDATE player SET sold = TRUE WHERE player_name = ?";
+        try (Connection connection = DriverManager.getConnection(
+                DBConstant.URL.getPropertis(), DBConstant.USERNAME.getPropertis(), DBConstant.PASSWORD.getPropertis());
+             PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setString(1, playerName);
+            return ps.executeUpdate() > 0;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+    public BidDTO getHighestBid(String playerName) {
+
+        String sql =
+                "SELECT company_name, bid_amount " +
+                        "FROM bid WHERE player_name = ? " +
+                        "ORDER BY bid_amount DESC LIMIT 1";
+
+        try (Connection con = DriverManager.getConnection(
+                DBConstant.URL.getPropertis(),
+                DBConstant.USERNAME.getPropertis(),
+                DBConstant.PASSWORD.getPropertis());
+
+             PreparedStatement ps = con.prepareStatement(sql)) {
+
+            ps.setString(1, playerName);
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                BidDTO dto = new BidDTO();
+                dto.setCompanyName(rs.getString("company_name"));
+                dto.setPrice(rs.getDouble("bid_amount"));
+                return dto;
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+
 }
 

@@ -64,13 +64,13 @@
 
             <div class="mb-3 d-none" id="bowlingAvgDiv">
                 <label class="form-label">Bowling Average</label>
-                <input type="number" step="0.01" min="0"  class="form-control" name="bowlingAvg"
+                <input type="number" step="0.01" min="0" class="form-control" name="bowlingAvg"
                        placeholder="Enter bowling average">
             </div>
 
             <div class="mb-3 d-none" id="stumpingDiv">
                 <label class="form-label">Number of Stumps</label>
-                <input type="number" min="0"  class="form-control" name="stumps" placeholder="No Of Stumps">
+                <input type="number" min="0" class="form-control" name="stumps" placeholder="No Of Stumps">
             </div>
 
 
@@ -109,8 +109,18 @@
                         <td>${item.bowlingAvg}</td>
                         <td>${item.stumps}</td>
                         <td>
-                            <a href="bid?PlayerName=${item.playerName}"
-                               class="btn btn-warning">StartBid</a>
+                            <c:choose>
+                                <c:when test="${item.sold}">
+    <span class="badge bg-danger">
+        SOLD - ${item.soldCompany} (${item.soldAmount} Cr)
+    </span>
+                                </c:when>
+                                <c:otherwise>
+                                    <a href="bid?PlayerName=${item.playerName}"
+                                       class="btn btn-warning">StartBid</a>
+                                </c:otherwise>
+                            </c:choose>
+
                         </td>
                     </tr>
                 </c:forEach>
